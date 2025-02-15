@@ -10,3 +10,8 @@ export function shuffleArray(array) {
 
     return array;
 }
+
+// Funktion som sorterar efter imdbRating med högst längst upp och returnerar 20 topfilmer
+export function MovieByHighestRating(database) {
+    return database.sort((a, b) => b.imdbRating - a.imdbRating).slice(0, 20);
+}

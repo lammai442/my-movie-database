@@ -9,3 +9,11 @@ export async function fetchTopMovies() {
     
     return movies;
 }
+
+export async function fetchOmdbMovie(id) {
+    const response = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&plot=full&i=${id}`)
+    let movie = await response.json();
+    oData.movie = movie;
+
+    return movie;
+}

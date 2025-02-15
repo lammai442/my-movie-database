@@ -1,7 +1,7 @@
 import { oData } from './data/data.js';
-import { fetchTopMovies } from './modules/api.js';
+import { fetchTopMovies, fetchOmdbMovie } from './modules/api.js';
 import { renderTrailers } from './modules/caroussel.js';
-import { shuffleArray } from './utils/utils.js';
+import { shuffleArray, MovieByHighestRating } from './utils/utils.js';
 import { getElement } from './utils/domUtils.js';
 
 if(window.location.pathname === '/' || window.location.pathname === '/template/index.html') {
@@ -21,6 +21,26 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
             // För varje iteration så skickas även ett nummer med som måste börja på 1
             renderTrailers(fiveRandomTrailerMovies[i], i + 1)         
         }
+
+        // Omvandlar arrayen topMovieList så att den har mer detailjer
+        let fullMovieDetails = await getAllMovieDetails(oData.topMovieList)     
+        console.log(MovieByHighestRating(fullMovieDetails));
+
+        
+        // Funktion som returnerar full information när man lägger in en array med filmer
+        async function getAllMovieDetails(database){
+            let movieDatabase = [];
+            for(let movie of database) {
+                // 
+                let fullMovieDetail = await fetchOmdbMovie(movie.imdbID);               
+                movieDatabase.push(fullMovieDetail);
+            }
+            return movieDatabase;                    
+        }
+        // let movie = await fetchOmdbMovie(fiveRandomTrailerMovies[0].imdbID);
+        // console.log(movie);
+        
+        
 
     }
 
