@@ -83,3 +83,11 @@ body {
     border: none;
     cursor: pointer;
 }
+
+/* ==== Index page ==== */
+
+/* Our recommended movies section */
+.popular-title {
+    color: white;
+    text-align: center;
+}
