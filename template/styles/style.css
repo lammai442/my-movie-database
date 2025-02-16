@@ -164,3 +164,30 @@ body {
 .card__rating-star {
     max-width: 7%;
 }
+
+/* ==== Movie overlay ==== */
+
+.movie__container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    color: white;
+    background-color: var(--primary-bg);
+}
+
+.movie {
+    width: 100%;
+}
+
+.movie__poster {
+    width: 10%;
+}
+
+.movie__info {
+    display: flex;
+}
+
+.movie__top-info, .movie__bottom-info {
+    display: flex;
+}
