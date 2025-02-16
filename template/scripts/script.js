@@ -26,9 +26,10 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
         // Omvandlar arrayen topMovieList så att den har mer detailjer
         let fullMovieDetails = await getAllMovieDetails(oData.topMovieList);     
         // Lägger in top 20 filmer med högst ranking först från Jespers databas
-        oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails);
+        oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails).slice(0, 20);        
         
-        for(let movie of fullMovieDetails) {
+        // En loop för att skapa 20 st movieCards efter högsta rankingen
+        for(let movie of oData.MovieByHighestRating) {
             createMovieCard(movie.Poster, movie.Title, movie.imdbRating)
         }
     }     
