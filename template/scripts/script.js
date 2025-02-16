@@ -3,6 +3,7 @@ import { fetchTopMovies, fetchOmdbMovie } from './modules/api.js';
 import { renderTrailers } from './modules/caroussel.js';
 import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from './utils/utils.js';
 import { getElement } from './utils/domUtils.js';
+import { createMovieCard } from './components/movieCard.js';
 
 if(window.location.pathname === '/' || window.location.pathname === '/template/index.html') {
     
@@ -26,6 +27,10 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
         let fullMovieDetails = await getAllMovieDetails(oData.topMovieList);     
         // Lägger in top 20 filmer med högst ranking först från Jespers databas
         oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails);
+        
+        for(let movie of fullMovieDetails) {
+            createMovieCard(movie.Poster, movie.Title, movie.imdbRating)
+        }
     }     
 
 } else if(window.location.pathname === '/template/favorites.html') {
