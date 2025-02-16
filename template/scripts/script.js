@@ -1,8 +1,9 @@
 import { oData } from './data/data.js';
 import { fetchTopMovies, fetchOmdbMovie } from './modules/api.js';
 import { renderTrailers } from './modules/caroussel.js';
-import { shuffleArray, MovieByHighestRating } from './utils/utils.js';
+import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from './utils/utils.js';
 import { getElement } from './utils/domUtils.js';
+import { createMovieCard } from './components/movieCard.js';
 
 if(window.location.pathname === '/' || window.location.pathname === '/template/index.html') {
     
@@ -23,32 +24,15 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
         }
 
         // Omvandlar arrayen topMovieList så att den har mer detailjer
-        let fullMovieDetails = await getAllMovieDetails(oData.topMovieList)     
-        console.log(MovieByHighestRating(fullMovieDetails));
-
+        let fullMovieDetails = await getAllMovieDetails(oData.topMovieList);     
+        // Lägger in top 20 filmer med högst ranking först från Jespers databas
+        oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails).slice(0, 20);        
         
-        // Funktion som returnerar full information när man lägger in en array med filmer
-        async function getAllMovieDetails(database){
-            let movieDatabase = [];
-            for(let movie of database) {
-                // 
-                let fullMovieDetail = await fetchOmdbMovie(movie.imdbID);               
-                movieDatabase.push(fullMovieDetail);
-            }
-            return movieDatabase;                    
+        // En loop för att skapa 20 st movieCards efter högsta rankingen
+        for(let movie of oData.MovieByHighestRating) {
+            createMovieCard(movie.Poster, movie.Title, movie.imdbRating)
         }
-        // let movie = await fetchOmdbMovie(fiveRandomTrailerMovies[0].imdbID);
-        // console.log(movie);
-        
-        
-
-    }
-
-
-    
-    
-    
-
+    }     
 
 } else if(window.location.pathname === '/template/favorites.html') {
   
