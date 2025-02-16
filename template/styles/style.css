@@ -29,9 +29,6 @@ body {
     max-width: 1180px;
     margin: 0 auto;
 }
-.center {
-    margin: 0 auto;
-}
 
 .d-none {
     display: none;
@@ -90,6 +87,7 @@ body {
 .popular-title {
     color: white;
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 .card-container {
@@ -144,6 +142,11 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.card__poster:hover {
+    opacity: 80%;
+    cursor: pointer;
 }
 
 .card__bottom {
