@@ -28,11 +28,15 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
         // Lägger in top 20 filmer med högst ranking först från Jespers databas
         oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails).slice(0, 20);        
         
-        // En loop för att skapa 20 st movieCards efter högsta rankingen
-        for(let movie of oData.MovieByHighestRating) {
-            createMovieCard(movie.Poster, movie.Title, movie.imdbRating)
+        // // En loop för att skapa 20 st movieCards efter högsta rankingen
+        // for(let movie of oData.MovieByHighestRating) {
+        //     createMovieCard(movie.Poster, movie.Title, movie.imdbRating)
+        // }
+
+        for(let i= 0; i < oData.MovieByHighestRating.length; i++) {
+            createMovieCard(oData.MovieByHighestRating[i].Poster, oData.MovieByHighestRating[i].Title, oData.MovieByHighestRating[i].imdbRating, oData.MovieByHighestRating[i].imdbID);            
         }
-    }     
+    }
 
 } else if(window.location.pathname === '/template/favorites.html') {
   
