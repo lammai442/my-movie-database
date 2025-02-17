@@ -29,7 +29,8 @@ export function createMovieCard(poster, title, ratings, dataID) {
     
     // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer 
     card__posterRef.addEventListener('click', (event) => {
-      showMovie(event.target.dataset.posterid);
+      // showMovie(event.target.dataset.posterid);
+      showMovieModal(event.target.dataset.posterid)
     })
 
      // Skapar en referens till posterID
@@ -37,48 +38,119 @@ export function createMovieCard(poster, title, ratings, dataID) {
 
     // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer 
     card__titleRef.addEventListener('click', (event) => {
-      showMovie(event.target.dataset.titleid);
+      // showMovie(event.target.dataset.titleid);
+      showMovieModal(event.target.dataset.titleid)
     })
 }
 
-async function showMovie(id){ 
+async function showMovieModal(id) { 
   const movie = await fetchOmdbMovie(id);
-  // const bodyRef = document.body;
-  let articleRef = document.createElement('article');
-  articleRef.classList.add('movie__container')
-  articleRef.innerHTML = `    
+  // Skapa overlay-elementet
+  const overlay = document.createElement('div');
+  overlay.classList.add('modal-overlay');
+
+  // Skapa modalinnehållet
+  const modal = document.createElement('div');
+  modal.classList.add('modal-content');
+  
+  // Lägg in innehåll i modalen (exempelvis filmens titel och poster)
+  modal.innerHTML = `    
     <section class="movie">
       <h2 class="movie__title">${movie.Title}</h2>
+      <figure class="card__favourite-box card__favourite-box--smaller">
+        <img class="card__favourite-bookmark" src="./res/icons/bookmark-solid.svg" alt="bookmark background">
+        <img class="card__favourite-star" src="./res/icons/star-regular.svg" alt="favourite star">
+      </figure>
       <section class="movie__info">
-        <img class="movie__poster" src="${movie.Poster}" alt="">
+        <section class="movie__poster">
+          <img class="movie__poster-img" src="${movie.Poster}" alt="${movie.Title}">
+        </section>
         <section class="movie__top-info">
-          <p class="movie__details">Rated: ${movie.Rated}</p>
-          <p class="movie__details">Genre: ${movie.Genre}</p>
-          <p class="movie__details">Runtime: ${movie.Runtime}</p>
-          <p class="movie__details">Released: ${movie.Released}</p>
-          <p class="movie__details">Ratings: ${movie.imdbRating}</p>
+            <p class="movie__summary"><strong>Rated</strong>: ${movie.Rated}</p>
+            <p class="movie__summary"><strong>Genre</strong>: ${movie.Genre}</p>
+            <p class="movie__summary"><strong>Runtime</strong>: ${movie.Runtime}</p>
+            <p class="movie__summary"><strong>Released</strong>: ${movie.Released}</p>
+            <p class="movie__summary"><strong>Ratings</strong>: ${movie.imdbRating}</p>
         </section>
         <section class="movie__plot">
-          <h3 class="movie__subtitle">Plot</h3>
-          <p>${movie.Plot}</p>
+            <h3 class="movie__subtitle">Plot</h3>
+            <p>${movie.Plot}</p>
         </section>
         <section class="movie__bottom-info">
-          <section>
-            <h3 class="movie__subtitle">Director:</h3>
-            <p class="movie__team">${movie.Director}</p>
-          </section>
-          <section>
-            <h3 class="movie__subtitle">Writer:</h3>
-            <p class="movie__team">${movie.Writer}</p>
-          </section>
-          <section>
-            <h3 class="movie__subtitle">Actors:</h3>
-            <p class="movie__team">${movie.Actors}</p>
-          </section>
+            <section>
+              <h3 class="movie__subtitle">Director:</h3>
+              <p class="movie__team">${movie.Director}</p>
+            </section>
+            <section>
+              <h3 class="movie__subtitle">Writer:</h3>
+              <p class="movie__team">${movie.Writer}</p>
+            </section>
+            <section>
+              <h3 class="movie__subtitle">Actors:</h3>
+              <p class="movie__team">${movie.Actors}</p>
+            </section>
         </section>
       </section>
+      <button id="movieCloseBtn" class="movie__close-btn">Close</button>
     </section>
-  `  
-  document.body.style.position = "relative";
-  document.body.appendChild(articleRef);
+  `;
+
+  // Lägg modalinnehållet inuti overlay
+  overlay.appendChild(modal);
+
+  // Lägg till overlay i dokumentets body
+  document.body.appendChild(overlay);
+
+  // Stäng modalen om man klickar utanför modalinnehållet
+  overlay.addEventListener('click', function(event) {
+    if (event.target === overlay) {
+      overlay.remove();
+    }
+  });
+
+  const movieCloseBtnRef = document.querySelector('#movieCloseBtn')
+  movieCloseBtnRef.addEventListener('click', (event) => {
+    overlay.remove();
+  })
 }
+
+// async function showMovie(id){ 
+//   const movie = await fetchOmdbMovie(id);
+//   let articleRef = document.createElement('article');
+//   articleRef.classList.add('movie__container')
+//   articleRef.innerHTML = `    
+//     <section class="movie">
+//       <h2 class="movie__title">${movie.Title}</h2>
+//       <section class="movie__info">
+//         <img class="movie__poster" src="${movie.Poster}" alt="">
+//         <section class="movie__top-info">
+//           <p class="movie__details">Rated: ${movie.Rated}</p>
+//           <p class="movie__details">Genre: ${movie.Genre}</p>
+//           <p class="movie__details">Runtime: ${movie.Runtime}</p>
+//           <p class="movie__details">Released: ${movie.Released}</p>
+//           <p class="movie__details">Ratings: ${movie.imdbRating}</p>
+//         </section>
+//         <section class="movie__plot">
+//           <h3 class="movie__subtitle">Plot</h3>
+//           <p>${movie.Plot}</p>
+//         </section>
+//         <section class="movie__bottom-info">
+//           <section>
+//             <h3 class="movie__subtitle">Director:</h3>
+//             <p class="movie__team">${movie.Director}</p>
+//           </section>
+//           <section>
+//             <h3 class="movie__subtitle">Writer:</h3>
+//             <p class="movie__team">${movie.Writer}</p>
+//           </section>
+//           <section>
+//             <h3 class="movie__subtitle">Actors:</h3>
+//             <p class="movie__team">${movie.Actors}</p>
+//           </section>
+//         </section>
+//       </section>
+//     </section>
+//   `  
+//   // document.body.style.position = "relative";
+//   document.body.appendChild(articleRef);
+// }
