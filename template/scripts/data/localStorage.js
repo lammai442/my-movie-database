@@ -11,15 +11,17 @@ export function removeFavouriteFromLocalStorage(favoriteMovie) {
     localStorage.setItem('favourites', JSON.stringify(storeData));
 }
 
-// HÄR FUNGERAR INTE KODEN DÅ DEN GÖR DUBBLETTER
 // Funktion för att spara stjärnmärk film i localStorage
 export function saveFavouriteToLocalstorage(favouriteMovie) {
+    // Här hämtas senaste arrayen från localStorage
     let storeData = JSON.parse(localStorage.getItem('favourites') || '[]');
-    storeData.push(favouriteMovie);
-    console.log(storeData);
-
-    // Lägger in den nya filmen i oData.favouritesarrayen
-    oData.favourites.push(...storeData);
+    
+    // Här läggs den nya favouriteMovie in i den localStoragearrayen
+    storeData.push(favouriteMovie);    
+    
+    // Här skrivs oData.favourites arrayen så att det blir den nya arrayen med tillagda favouriteMovie
+    oData.favourites = storeData;
+    
     // Uppdatarer den nya localStorage
     localStorage.setItem('favourites', JSON.stringify(oData.favourites));
 }

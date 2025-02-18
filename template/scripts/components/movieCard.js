@@ -38,12 +38,12 @@ export async function createMovieCard(poster, title, ratings, dataID) {
         cardFavouriteStarRef.src = './res/icons/star-solid.svg';
     }
 
-    // Lyssnare på favouritstjärnan som också har async
+    // Lyssnare på favouritestjärnan som också har async
     cardFavouriteStarRef.addEventListener('click', async (event) => {
         // Hämtar hem referensen för moviecardens img.src
         const imgSrcRef = event.currentTarget.src;
 
-        let favouriteMovie = [];
+        let favouriteMovie = '';
 
         // Här läggs filmen in i oData.favourites
         if (imgSrcRef.includes('star-regular.svg')) {
@@ -51,6 +51,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
             event.currentTarget.src = './res/icons/star-solid.svg';
             // Hämtar hem objektet för filmen och sparar i en variabel
             favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
+            
             // Skicka med variabeln till localStorage
             saveFavouriteToLocalstorage(favouriteMovie);
         }
