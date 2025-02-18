@@ -1,6 +1,12 @@
-import { fetchOmdbMovie } from "../modules/api.js";
+import { fetchOmdbMovie } from '../modules/api.js';
+import { oData } from '../data/data.js';
+import { doesMovieExistInFavourites } from '../utils/utils.js';
+import {
+    removeFavouriteFromLocalStorage,
+    saveFavouriteToLocalstorage,
+} from '../data/localStorage.js';
 
-export function createMovieCard(poster, title, ratings, dataID) {    
+export async function createMovieCard(poster, title, ratings, dataID) {
     const cardContainerRef = document.querySelector('#cardContainer');
     let article = document.createElement('article');
     article.innerHTML = `
@@ -9,7 +15,7 @@ export function createMovieCard(poster, title, ratings, dataID) {
               <img class="card__poster" data-posterid="${dataID}"src="${poster}" alt="movie poster">
               <figure class="card__favourite-box">
                 <img class="card__favourite-bookmark" src="./res/icons/bookmark-solid.svg" alt="bookmark background">
-                <img class="card__favourite-star" src="./res/icons/star-regular.svg" alt="favourite star">
+                <img class="card__favourite-star" src="./res/icons/star-regular.svg" data-favouriteid="${dataID}" alt="favourite star">
               </figure>
             </section>
             <section class="card__bottom">
@@ -21,40 +27,79 @@ export function createMovieCard(poster, title, ratings, dataID) {
             </section>
     </article>
     `;
-    // Lägg in nya card_movie i cardContainer så att den syns i Top 20 highest listan
-    cardContainerRef.appendChild(article);   
-    
+    // Lägg in nya card_movie i cardContainer
+    cardContainerRef.appendChild(article);
+
+    // Hämtning av favouritstjärnan
+    const cardFavouriteStarRef = article.querySelector('.card__favourite-star');
+
+    // Om filmen finns i localStorage så ska den ändras till stjärnmärkt
+    if (doesMovieExistInFavourites(cardFavouriteStarRef.dataset.favouriteid)) {
+        cardFavouriteStarRef.src = './res/icons/star-solid.svg';
+    }
+
+    // Lyssnare på favouritstjärnan som också har async
+    cardFavouriteStarRef.addEventListener('click', async (event) => {
+        // Hämtar hem referensen för moviecardens img.src
+        const imgSrcRef = event.currentTarget.src;
+
+        let favouriteMovie = [];
+
+        // Här läggs filmen in i oData.favourites
+        if (imgSrcRef.includes('star-regular.svg')) {
+            // Byt ut favoritstjärnan till solid
+            event.currentTarget.src = './res/icons/star-solid.svg';
+            // Hämtar hem objektet för filmen och sparar i en variabel
+            favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
+            // Skicka med variabeln till localStorage
+            saveFavouriteToLocalstorage(favouriteMovie);
+        }
+        // Här tas den bort från oData.favourites
+        else if (imgSrcRef.includes('star-solid.svg')) {
+            // Byt ut favoritstjärnan till regular
+            event.currentTarget.src = './res/icons/star-regular.svg';
+            favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
+
+            // Här tas den bort från oData.favourites
+            oData.favourites = oData.favourites.filter(
+                (favourite) => favourite.imdbID !== favouriteMovie.imdbID
+            );
+            // Här tas den bort från localStorage
+            removeFavouriteFromLocalStorage(favouriteMovie);
+        }
+    });
+
     // Skapar en referens till posterID
-    const card__posterRef = document.querySelector(`[data-posterid="${dataID}"]`)
-    
-    // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer 
+    const card__posterRef = document.querySelector(`[data-posterid="${dataID}"]`);
+
+    // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer
     card__posterRef.addEventListener('click', (event) => {
-      // showMovie(event.target.dataset.posterid);
-      showMovieModal(event.target.dataset.posterid)
-    })
+        // showMovie(event.target.dataset.posterid);
+        showMovieModal(event.target.dataset.posterid);
+    });
 
-     // Skapar en referens till posterID
-    const card__titleRef = document.querySelector(`[data-titleid="${dataID}"]`)
+    // Skapar en referens till posterID
+    const card__titleRef = document.querySelector(`[data-titleid="${dataID}"]`);
 
-    // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer 
+    // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer
     card__titleRef.addEventListener('click', (event) => {
-      // showMovie(event.target.dataset.titleid);
-      showMovieModal(event.target.dataset.titleid)
-    })
+        // showMovie(event.target.dataset.titleid);
+        showMovieModal(event.target.dataset.titleid);
+    });
 }
 
-async function showMovieModal(id) { 
-  const movie = await fetchOmdbMovie(id);
-  // Skapa overlay-elementet
-  const overlay = document.createElement('div');
-  overlay.classList.add('modal-overlay');
+async function showMovieModal(id) {
+    const movie = await fetchOmdbMovie(id);
+    // Skapa overlay-elementet
+    const overlay = document.createElement('div');
+    overlay.classList.add('modal-overlay');
 
-  // Skapa modalinnehållet
-  const modal = document.createElement('div');
-  modal.classList.add('modal-content');
-  
-  // Lägg in innehåll i modalen (exempelvis filmens titel och poster)
-  modal.innerHTML = `    
+    // Skapa modalinnehållet
+    const modal = document.createElement('div');
+    modal.classList.add('modal-content');
+
+    // Lägg in innehåll i modalen (exempelvis filmens titel och poster)
+    modal.innerHTML = `    
     <section class="movie">
       <h2 class="movie__title">${movie.Title}</h2>
       <figure class="card__favourite-box card__favourite-box--smaller">
@@ -95,30 +140,31 @@ async function showMovieModal(id) {
     </section>
   `;
 
-  // Lägg modalinnehållet inuti overlay
-  overlay.appendChild(modal);
+    // Lägg modalinnehållet inuti overlay
+    overlay.appendChild(modal);
 
-  // Lägg till overlay i dokumentets body
-  document.body.appendChild(overlay);
+    // Lägg till overlay i dokumentets body
+    document.body.appendChild(overlay);
 
-  // Stäng modalen om man klickar utanför modalinnehållet
-  overlay.addEventListener('click', function(event) {
-    if (event.target === overlay) {
-      overlay.remove();
-    }
-  });
+    // Stäng modalen om man klickar utanför modalinnehållet
+    overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) {
+            overlay.remove();
+        }
+    });
 
-  const movieCloseBtnRef = document.querySelector('#movieCloseBtn')
-  movieCloseBtnRef.addEventListener('click', (event) => {
-    overlay.remove();
-  })
+    // En lyssnare för att ta bort Modalen
+    const movieCloseBtnRef = document.querySelector('#movieCloseBtn');
+    movieCloseBtnRef.addEventListener('click', () => {
+        overlay.remove();
+    });
 }
 
-// async function showMovie(id){ 
+// async function showMovie(id){
 //   const movie = await fetchOmdbMovie(id);
 //   let articleRef = document.createElement('article');
 //   articleRef.classList.add('movie__container')
-//   articleRef.innerHTML = `    
+//   articleRef.innerHTML = `
 //     <section class="movie">
 //       <h2 class="movie__title">${movie.Title}</h2>
 //       <section class="movie__info">
@@ -150,7 +196,7 @@ async function showMovieModal(id) {
 //         </section>
 //       </section>
 //     </section>
-//   `  
+//   `
 //   // document.body.style.position = "relative";
 //   document.body.appendChild(articleRef);
 // }

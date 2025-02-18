@@ -172,6 +172,7 @@ body {
 /* ==== Movie overlay ==== */
 .movie {
     width: 100%;
+    height: 100%;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -257,6 +258,7 @@ body {
     background: var(--primary-bg);
     max-width: 900px;
     width: 90%; /* Anpassar sig efter skärmstorlek */
+    height: 90%;
     padding: 20px;
     border-radius: 8px;
     position: relative;
