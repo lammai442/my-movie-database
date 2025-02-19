@@ -182,3 +182,9 @@ async function showMovieModal(id) {
         overlay.remove();
     });
 }
+
+export function createAllMovieCards(movies) {
+  for(let i= 0; i < movies.length; i++) {
+      createMovieCard(movies[i].Poster, movies[i].Title, movies[i].imdbRating, movies[i].imdbID);            
+      }
+}

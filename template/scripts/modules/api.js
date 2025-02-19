@@ -27,3 +27,20 @@ export async function fetchOmdbMovie(id) {
 
     return movie;
 }
+
+export async function fetchOmdbMovieBySearch(search) {
+    try {
+        const response = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&s=*${search}`)
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let movie = await response.json();
+        return movie;
+
+    } catch (error) {
+        console.log(`Failed to fetch ${search}`), error;
+        return null;
+    }
+}
