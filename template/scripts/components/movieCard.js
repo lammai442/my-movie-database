@@ -9,6 +9,12 @@ import {favouriteSetup } from '../pageSetups/pageSetups.js';
 
 export async function createMovieCard(poster, title, ratings, dataID) {
     const cardContainerRef = document.querySelector('.card-container');
+
+    // Om poster har värdet av 'N/A' så ska det ersättas med en annan bild
+    if(poster === 'N/A') {
+      poster = './res/icons/missing-poster.svg';
+    }
+
     let article = document.createElement('article');
     article.classList.add('card__movie');
     article.dataset.id = `${dataID}`;
@@ -55,7 +61,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
             favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
             
             // Skicka med variabeln till localStorage
-            saveFavouriteToLocalstorage(favouriteMovie);
+            saveFavouriteToLocalstorage('favourites',favouriteMovie);
         }
         // Här tas den bort från oData.favourites
         else if (imgSrcRef.includes('star-solid.svg')) {
@@ -102,6 +108,11 @@ async function showMovieModal(id) {
     // Skapa modalinnehållet
     const modal = document.createElement('div');
     modal.classList.add('modal-content');
+
+    // Om poster har värdet av 'N/A' så ska det ersättas med en annan bild
+    if(movie.Poster === 'N/A') {
+      movie.Poster = './res/icons/missing-poster.svg';
+    }
 
     // Lägg in innehåll i modalen (exempelvis filmens titel och poster)
     modal.innerHTML = `    
