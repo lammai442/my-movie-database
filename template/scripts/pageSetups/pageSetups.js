@@ -1,8 +1,7 @@
 import { oData } from '../data/data.js';
-import { fetchTopMovies, fetchOmdbMovie } from '../modules/api.js';
+import { fetchTopMovies } from '../modules/api.js';
 import { renderTrailers } from '../modules/caroussel.js';
 import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from '../utils/utils.js';
-import { getElement } from '../utils/domUtils.js';
 import { createMovieCard } from '../components/movieCard.js';
 import { getLocalStorage} from '../data/localStorage.js'
 
@@ -34,7 +33,7 @@ export function favouriteSetup() {
     const favouriteCardContainerRef = document.querySelector('#favouriteCardContainer');
     favouriteCardContainerRef.innerHTML = '';
     
-    let favourites = getLocalStorage();
+    let favourites = getLocalStorage('favourites');
     
     if(favourites.length > 0) {
         for(let i= 0; i < favourites.length; i++) {

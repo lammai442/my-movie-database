@@ -28,6 +28,7 @@ export async function getAllMovieDetails(database) {
         // Lägger in nya objektet med fulla detaljer i nya filmdatabasen
         movieDatabase.push(fullMovieDetail);
     }
+    // Uppdatarer oData.movieFullDetail med fullständig info på alla objekts filmdetaljer
     oData.movieFullDetail = movieDatabase;
     return movieDatabase;
 }

@@ -54,6 +54,10 @@ body {
     background-color: var(--text-yellow);
 }
 
+.header__search-bar {
+    width: 100%;
+}
+
 .header__form {
     width: 100%;
     display: flex;
@@ -272,8 +276,9 @@ body {
 /* MODAL */
 
  
-  /* ==== MEDIA QUERIES ==== */
-  @media screen and (max-width: 900px) { 
+/* ==== MEDIA QUERIES ==== */
+@media screen and (max-width: 900px) { 
+    /* Moviecard i overlay */
     .movie__poster {
         max-height: 200px;
         max-width: 150px;
@@ -285,7 +290,7 @@ body {
         gap: 0;
         flex-direction: column;
     }
-    
+
     .movie__plot {
         grid-column: 1 / 4;
         grid-row: 2;
@@ -300,10 +305,17 @@ body {
     .card__favourite-box--smaller {
         width: 8%;
     }
-  }
 
-  /* ==== Index page ==== */
-  .content-wrapper--margin-top {
-    margin-top: 2rem;
-  }
+    .header__search-bar {
+        order: 1;
+        width: 100%;
+        }
+        
+}
+
+/* ==== Index page ==== */
+.content-wrapper--margin-top {
+margin-top: 2rem;
+}
+
 
