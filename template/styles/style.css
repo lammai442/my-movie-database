@@ -10,6 +10,8 @@
     --primary-white: #ffffff;
     --primary-grey: #1A1A1A;
     --text-yellow: #F5C518;
+    --text-white: #ffffff;
+
 }
 
 /* Base */
@@ -49,7 +51,7 @@ body {
 
 .header__logo {
     width: 150px;
-    background-color: yellow;
+    background-color: var(--text-yellow);
 }
 
 .header__form {
@@ -72,7 +74,7 @@ body {
     cursor: pointer;
 }
 
-.header__fav-btn {
+.header__nav-btn {
     text-decoration: none;
     font-size: 1.5rem;
     color: var(--text-yellow);
@@ -82,18 +84,18 @@ body {
 }
 
 /* ==== Index page ==== */
-
 /* Our recommended movies section */
-.popular-title {
-    color: white;
+.content-wrapper__title {
+    color: var(--text-white);
     text-align: center;
     margin-bottom: 2rem;
 }
 
 .card-container {
-    color: white;
+    color: var(--text-white);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 223px));
+    justify-content: center;
     gap: 1rem;
 }
 
@@ -108,7 +110,6 @@ body {
 .card__top {
     width: 100%;
     aspect-ratio: 2 / 3;
-    /* height: 370px; */
     position: relative;
     overflow: hidden;
 }
@@ -130,7 +131,6 @@ body {
 
 .card__favourite-star:hover {
     cursor: pointer;
-    /* content: url('../res/icons/star-solid.svg'); */
 }
 
 .card__favourite-bookmark {
@@ -170,6 +170,38 @@ body {
 }
 
 /* ==== Movie overlay ==== */
+/* Overlay som täcker hela skärmen med 90% opacitet*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Svart bakgrund med 90% opacitet */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modalinnehåll med max-width på 900px */
+  .modal-content {
+    background: var(--primary-bg);
+    max-width: 900px;
+    width: 90%; /* Anpassar sig efter skärmstorlek */
+    height: 90%;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    color: white;
+    border: 1px solid #F5C518;
+    overflow: hidden;
+  }
+
+  .card__favourite-box--smaller {
+      width: 5%;
+  }
+  
 .movie {
     width: 100%;
     height: 100%;
@@ -237,41 +269,9 @@ body {
     align-self: flex-end;
 }
 
-
 /* MODAL */
-/* Overlay som täcker hela skärmen med 90% opacitet (d.v.s. nästan helt ogenomskinlig) */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* Svart bakgrund med 90% opacitet */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Modalinnehåll med max-width på 900px */
-  .modal-content {
-    background: var(--primary-bg);
-    max-width: 900px;
-    width: 90%; /* Anpassar sig efter skärmstorlek */
-    height: 90%;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-    color: white;
-    border: 1px solid #F5C518;
-    overflow: hidden;
-  }
 
-  .card__favourite-box--smaller {
-      width: 5%;
-  }
  
-
   /* ==== MEDIA QUERIES ==== */
   @media screen and (max-width: 900px) { 
     .movie__poster {
@@ -301,3 +301,9 @@ body {
         width: 8%;
     }
   }
+
+  /* ==== Index page ==== */
+  .content-wrapper--margin-top {
+    margin-top: 2rem;
+  }
+

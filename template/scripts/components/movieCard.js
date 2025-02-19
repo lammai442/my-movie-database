@@ -5,7 +5,7 @@ import {
     removeFavouriteFromLocalStorage,
     saveFavouriteToLocalstorage,
 } from '../data/localStorage.js';
-import {favouriteSetup } from '../script.js';
+import {favouriteSetup } from '../pageSetups/pageSetups.js';
 
 export async function createMovieCard(poster, title, ratings, dataID) {
     const cardContainerRef = document.querySelector('.card-container');
@@ -145,6 +145,13 @@ async function showMovieModal(id) {
     </section>
   `;
 
+  // JOBBA VIDARE MED DENNA FÖR ATT FÅ MODALEN STJÄRNMÄRKT!
+    // // Om filmen finns i localStorage så ska den ändras till stjärnmärkt
+    // if (doesMovieExistInFavourites(id)) {
+    //     // Ändra om stjärnan så att den är ifylld
+    //     cardFavouriteStarRef.src = './res/icons/star-solid.svg';
+    //   }
+    
     // Lägg modalinnehållet inuti overlay
     overlay.appendChild(modal);
 
@@ -164,44 +171,3 @@ async function showMovieModal(id) {
         overlay.remove();
     });
 }
-
-// async function showMovie(id){
-//   const movie = await fetchOmdbMovie(id);
-//   let articleRef = document.createElement('article');
-//   articleRef.classList.add('movie__container')
-//   articleRef.innerHTML = `
-//     <section class="movie">
-//       <h2 class="movie__title">${movie.Title}</h2>
-//       <section class="movie__info">
-//         <img class="movie__poster" src="${movie.Poster}" alt="">
-//         <section class="movie__top-info">
-//           <p class="movie__details">Rated: ${movie.Rated}</p>
-//           <p class="movie__details">Genre: ${movie.Genre}</p>
-//           <p class="movie__details">Runtime: ${movie.Runtime}</p>
-//           <p class="movie__details">Released: ${movie.Released}</p>
-//           <p class="movie__details">Ratings: ${movie.imdbRating}</p>
-//         </section>
-//         <section class="movie__plot">
-//           <h3 class="movie__subtitle">Plot</h3>
-//           <p>${movie.Plot}</p>
-//         </section>
-//         <section class="movie__bottom-info">
-//           <section>
-//             <h3 class="movie__subtitle">Director:</h3>
-//             <p class="movie__team">${movie.Director}</p>
-//           </section>
-//           <section>
-//             <h3 class="movie__subtitle">Writer:</h3>
-//             <p class="movie__team">${movie.Writer}</p>
-//           </section>
-//           <section>
-//             <h3 class="movie__subtitle">Actors:</h3>
-//             <p class="movie__team">${movie.Actors}</p>
-//           </section>
-//         </section>
-//       </section>
-//     </section>
-//   `
-//   // document.body.style.position = "relative";
-//   document.body.appendChild(articleRef);
-// }
