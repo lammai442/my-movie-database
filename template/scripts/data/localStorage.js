@@ -25,3 +25,9 @@ export function saveFavouriteToLocalstorage(favouriteMovie) {
     // Uppdatarer den nya localStorage
     localStorage.setItem('favourites', JSON.stringify(oData.favourites));
 }
+
+export function getLocalStorage() {
+    const storeData = localStorage.getItem('favourites') || '[]';
+
+    return JSON.parse(storeData);
+}

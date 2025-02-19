@@ -32,10 +32,14 @@ export async function getAllMovieDetails(database) {
     return movieDatabase;
 }
 
+// Kontroll ifall filmen finns i favourites
 export function doesMovieExistInFavourites(id) {
+    // Hämtar hem från localstorage med favourites
     let storeData = JSON.parse(localStorage.getItem('favourites') || '[]');
 
+    // Om det finns något i storeData
     if (storeData.length > 0) {
+        // Returna sant ifall moviecarden finns med i storeData
         if (storeData.some((favourite) => favourite.imdbID === id)) {
             return true;
         }
