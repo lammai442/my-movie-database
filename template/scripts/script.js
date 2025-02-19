@@ -4,6 +4,7 @@ import { renderTrailers } from './modules/caroussel.js';
 import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from './utils/utils.js';
 import { getElement } from './utils/domUtils.js';
 import { createMovieCard } from './components/movieCard.js';
+import { getLocalStorage} from './data/localStorage.js'
 
 if(window.location.pathname === '/' || window.location.pathname === '/template/index.html') {
     
@@ -39,30 +40,29 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
     }
 
 } else if(window.location.pathname === '/template/favorites.html') {
-    favouriteSetup()
-    
-    async function favouriteSetup() {
-        let favourites = ['tt0816692', 'tt0111161', 'tt14513804']        
+    favouriteSetup()     
+} else if(window.location.pathname === '/template/movie.html') {
+    console.log('movie.html');
 
-        let favouritesFullDetail = []; 
-        for(let favorites of favourites) {
-            let movie = await fetchOmdbMovie(favorites)
-            favouritesFullDetail.push(movie)
-        }        
-        
-        for(let i= 0; i < favouritesFullDetail.length; i++) {
-            createMovieCard(favouritesFullDetail[i].Poster, favouritesFullDetail[i].Title, favouritesFullDetail[i].imdbRating, favouritesFullDetail[i].imdbID);            
+} else if(window.location.pathname === '/template/search.html') {
+    console.log('search.html');
+}
+
+
+
+export function favouriteSetup(){
+    const favouriteCardContainerRef = document.querySelector('#favouriteCardContainer');
+    favouriteCardContainerRef.innerHTML = '';
+    console.log('favouriteSetup');
+    
+    let favourites = getLocalStorage();
+    
+    if(favourites.length > 0) {
+        for(let i= 0; i < favourites.length; i++) {
+            createMovieCard(favourites[i].Poster, favourites[i].Title, favourites[i].imdbRating, favourites[i].imdbID);            
         }
-    
-        // getLocalStorage()
-        
-    }
-
-    function getLocalStorage() {
-        const getData = localStorage.getItem('favourite') || '[]';
-    
-        return JSON.parse(getData);
-    }
+    }        
+}
     
     function setLocalStorage(){
         let storedData = getLocalStorage();
@@ -82,13 +82,5 @@ if(window.location.pathname === '/' || window.location.pathname === '/template/i
         }
         
     }
-  
-} else if(window.location.pathname === '/template/movie.html') {
-    console.log('movie.html');
-
-} else if(window.location.pathname === '/template/search.html') {
-    console.log('search.html');
-
-}
 
 
