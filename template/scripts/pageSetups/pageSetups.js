@@ -2,7 +2,7 @@ import { oData } from '../data/data.js';
 import { fetchTopMovies } from '../modules/api.js';
 import { renderTrailers } from '../modules/caroussel.js';
 import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from '../utils/utils.js';
-import { createMovieCard } from '../components/movieCard.js';
+import { createMovieCard, createAllMovieCards } from '../components/movieCard.js';
 import { getLocalStorage} from '../data/localStorage.js'
 
 // Funktion för att sätta upp startsidan
@@ -24,9 +24,8 @@ export async function indexSetup() {
     // Lägger in top 20 filmer med högst ranking först från Jespers databas
     oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails).slice(0, 20);        
 
-    for(let i= 0; i < oData.MovieByHighestRating.length; i++) {
-    createMovieCard(oData.MovieByHighestRating[i].Poster, oData.MovieByHighestRating[i].Title, oData.MovieByHighestRating[i].imdbRating, oData.MovieByHighestRating[i].imdbID);            
-    }
+    // Funktion för skapa alla movieCards
+    createAllMovieCards(oData.MovieByHighestRating);
 }
 
 export function favouriteSetup() {
@@ -36,9 +35,7 @@ export function favouriteSetup() {
     let favourites = getLocalStorage('favourites');
     
     if(favourites.length > 0) {
-        for(let i= 0; i < favourites.length; i++) {
-            createMovieCard(favourites[i].Poster, favourites[i].Title, favourites[i].imdbRating, favourites[i].imdbID);            
-        }
+        createAllMovieCards(favourites);
     }
     // Om ingen film är sjärnmarkerad så syns denna 
     else {

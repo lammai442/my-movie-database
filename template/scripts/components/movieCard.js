@@ -99,7 +99,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
     });
 }
 
-async function showMovieModal(id) {
+export async function showMovieModal(id) {
     const movie = await fetchOmdbMovie(id);
     // Skapa overlay-elementet
     const overlay = document.createElement('div');
@@ -181,4 +181,10 @@ async function showMovieModal(id) {
     movieCloseBtnRef.addEventListener('click', () => {
         overlay.remove();
     });
+}
+
+export function createAllMovieCards(movies) {
+  for(let i= 0; i < movies.length; i++) {
+      createMovieCard(movies[i].Poster, movies[i].Title, movies[i].imdbRating, movies[i].imdbID);            
+      }
 }

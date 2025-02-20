@@ -22,6 +22,7 @@ export function MovieByHighestRating(database) {
 export async function getAllMovieDetails(database) {
     let movieDatabase = [];
     // Loopa igenom hela arrayen och ersätt den med full information
+    
     for (let movie of database) {
         // Hämtar hem den iterationens fulla detaljer från Omdb och lägger in den i nya arrayen
         let fullMovieDetail = await fetchOmdbMovie(movie.imdbID);
@@ -46,3 +47,5 @@ export function doesMovieExistInFavourites(id) {
         }
     }
 }
+
+
