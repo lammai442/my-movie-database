@@ -25,18 +25,18 @@ export function submitSearch() {
     })
 }
 
+// Sätter upp searchsidan
 export async function searchSetup() {
     // Hämtar hem sökordet från localStorage
     let search = getLocalStorage('search');
     
     // Hämtar hem en array som har sökordet genom API
-    let movie = await fetchOmdbMovieBySearch(search)
-    console.log(movie);
-    
-    
+    let movie = await fetchOmdbMovieBySearch(search);    
+        
     // movie saknar alla detaljer och skickas till att söka så att alla detaljer hamnar i en ny array
-    let fullMovieDetails = await getAllMovieDetails(movie.Search)
+    let fullMovieDetails = await getAllMovieDetails(movie);
     
+
     // Loopar för att skapa moviecards i söksidan.
     createAllMovieCards(fullMovieDetails);
 }

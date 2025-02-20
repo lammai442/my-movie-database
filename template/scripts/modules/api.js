@@ -30,14 +30,31 @@ export async function fetchOmdbMovie(id) {
 
 export async function fetchOmdbMovieBySearch(search) {
     try {
-        const response = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&s=*${search}`)
+        const responsePageOne = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=1`)
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!responsePageOne.ok) {
+            throw new Error(`HTTP error! Status: ${responsePageOne.status}`);
         }
+        let moviesPageOne = await responsePageOne.json();
+        
+        let moviesPageTwo = null;
 
-        let movie = await response.json();
-        return movie;
+        if(parseInt(moviesPageOne.totalResults) > 10) {
+            const responsePageTwo = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=2`)
+
+            if (!responsePageTwo.ok) {
+                throw new Error(`HTTP error! Status: ${responsePageTwo.status}`);
+            }
+            moviesPageTwo = await responsePageTwo.json();
+        }
+        // console.log(moviesPageOne);
+        
+        console.log(moviesPageTwo);
+        const combinedMovies = [...moviesPageOne.Search || [], ...moviesPageTwo.Search || [] ];
+        
+        console.log(combinedMovies);
+        
+        return combinedMovies;
 
     } catch (error) {
         console.log(`Failed to fetch ${search}`), error;

@@ -99,7 +99,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
     });
 }
 
-async function showMovieModal(id) {
+export async function showMovieModal(id) {
     const movie = await fetchOmdbMovie(id);
     // Skapa overlay-elementet
     const overlay = document.createElement('div');
