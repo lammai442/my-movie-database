@@ -177,7 +177,7 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 999;
+    z-index: 899;
 }
 
 .card__favourite-star {
@@ -244,8 +244,7 @@ body {
   .modal-content {
     background: var(--primary-bg);
     max-width: 900px;
-    width: 90%; /* Anpassar sig efter skärmstorlek */
-    height: 90%;
+    width: 90%;
     padding: 20px;
     border-radius: 8px;
     position: relative;
@@ -325,7 +324,12 @@ body {
     align-self: flex-end;
 }
 
-/* MODAL */
+/* ==== MEDIA QUERIES ==== */
+.search-title {
+    color: var(--text-white);
+    text-align: center;
+    margin: 2rem;
+}
 
  
 /* ==== MEDIA QUERIES ==== */
@@ -357,11 +361,6 @@ body {
     .card__favourite-box--smaller {
         width: 8%;
     }
-
-    .header__search-bar {
-        order: 1;
-        width: 100%;
-        }
         
 }
 
