@@ -7,27 +7,32 @@ import { fetchOmdbMovieBySearch } from './modules/api.js';
 
 import { getAllMovieDetails } from './utils/utils.js';
 import { showMovieModal } from './components/movieCard.js';
-
+// Index-sidan
 if(window.location.pathname === '/' || window.location.pathname === '/template/index.html') {
     indexSetup();
     searchDropdown()
     submitSearch();
-} else if(window.location.pathname === '/template/favorites.html') {
+} 
+// Favorites-sidan
+else if(window.location.pathname === '/template/favorites.html') {
     favouriteSetup()     
+    searchDropdown()
     submitSearch();
 } else if(window.location.pathname === '/template/movie.html') {
 
-
+// Search-sidan
 } else if(window.location.pathname === '/template/search.html') {
     searchSetup();
-    submitSearch();
     searchDropdown()
+    submitSearch();
 }
 
 function searchDropdown() {
     const searchInputRef = document.querySelector('#searchInput');
+    const searchDropdownRef = document.querySelector('.search__dropdown');
+
     searchInputRef.addEventListener('input', async (event) => {        
-        event.preventDefault();
+        // event.preventDefault();
         const searchInput = event.target.value.trim();
         
         if (searchInput.length > 2) {
@@ -37,35 +42,38 @@ function searchDropdown() {
             if (movies && movies.length > 0) {
                 let fiveMovies = movies.splice(0, 5);           
                 createSearchMovies(fiveMovies);
-            } else {
-                console.log('else');
-                const headerSearchListRef = document.querySelector('.search__dropdown');        
-                headerSearchListRef.innerHTML = `
+            } else {   
+                searchDropdownRef.innerHTML = `
                 <p class="search__no-title">There are no movies with this title</p>`;
             }
-        } else {
-            // Om det är kortare än 2 tecken, töm listan
-            const headerSearchListRef = document.querySelector('.search__dropdown');
-            headerSearchListRef.innerHTML = ''; // Töm dropdownen om inget sökord
+        } 
+        // Om det är kortare än 2 tecken, töm listan
+        else {
+            searchDropdownRef.innerHTML = ''; // Töm dropdownen om inget sökord
         }
     })
 
-const headerSearchListRef = document.querySelector('.search__dropdown');
-
-// Visa dropdownen igen när man klickar på inputfältet (om den innehåller något)
-searchInputRef.addEventListener('focus', () => {
-    if (headerSearchListRef.children.length > 0) {
-        console.log('focus');
-                
-        headerSearchListRef.style.display = 'block';
-    }
-});
 }
 
+displaySearchDropdown ();
+
+function displaySearchDropdown () {
+    const searchDropdownRef = document.querySelector('.search__dropdown');
+    const searchInputRef = document.querySelector('#searchInput');
+    // Visa dropdownen igen när man klickar på inputfältet (om den innehåller något)
+    searchInputRef.addEventListener('focus', () => {
+        // Kontroll om searchDropdown har något li-element
+        if (searchDropdownRef.children.length > 0) {                    
+            searchDropdownRef.style.display = 'block';
+        }
+    });
+}
+
+
 function createSearchMovies(movies) {
-    const headerSearchListRef = document.querySelector('.search__dropdown');
-    headerSearchListRef.style.display = 'block';
-    headerSearchListRef.innerHTML = '';    
+    const searchDropdownRef = document.querySelector('.search__dropdown');
+    searchDropdownRef.style.display = 'block';
+    searchDropdownRef.innerHTML = '';    
     
     for(let i = 0; i < movies.length; i++) {        
         const searchListItem = document.createElement('li')
@@ -76,13 +84,11 @@ function createSearchMovies(movies) {
                 <section class="search__movie-info">
                     <p class="search__title">${movies[i].Title}</p>
                     <p class="search__year">${movies[i].Year}</p>
-                </section>
-        `
+                </section>`
         ;
-        headerSearchListRef.appendChild(searchListItem);
+        searchDropdownRef.appendChild(searchListItem);
         
         searchListItem.addEventListener('click', (event) => {
-            console.log(event.currentTarget.dataset.searchid);
             
             showMovieModal(event.currentTarget.dataset.searchid);
         })
@@ -90,15 +96,17 @@ function createSearchMovies(movies) {
 }
 
 document.addEventListener('click', (event) => {
-    event.preventDefault();
-    const headerSearchListRef = document.querySelector('.search__dropdown');
-    const searchInputRef = document.querySelector('#searchInput')
+    const searchDropdownRef = document.querySelector('.search__dropdown');
+    const searchInputRef = document.querySelector('#searchInput');
     
-    // Kontrollera om klicket INTE är inuti headerSearchListRef
-    if (headerSearchListRef && !headerSearchListRef.contains(event.target) && event.target !== searchInputRef) {
-        console.log('d-none');
-        
-        headerSearchListRef.style.display = 'none';
+    // Kontroll om det finns något barn inne i .s
+    if (searchDropdownRef.children.length > 0) {
+        // Kontrollera om klicket INTE är inuti searchDropdownRef
+        if (!searchDropdownRef.contains(event.target) && event.target !== searchInputRef) {
+            
+            // Gömmer alla listitems från search när den klickas utanför
+            searchDropdownRef.style.display = 'none';
+        }
     }
 });
 

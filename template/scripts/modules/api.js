@@ -5,6 +5,7 @@ export async function fetchTopMovies() {
     try {      
         const response = await fetch('https://santosnr6.github.io/Data/favoritemovies.json');
         
+        // Om response returnerar false
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -20,6 +21,7 @@ export async function fetchTopMovies() {
     }
 }
 
+// Funktion för att hämta filmer genom imdbId
 export async function fetchOmdbMovie(id) {
     const response = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&plot=full&i=${id}`)
     let movie = await response.json();
@@ -28,33 +30,40 @@ export async function fetchOmdbMovie(id) {
     return movie;
 }
 
+// Funktion för att hämta filmer genom sökord
 export async function fetchOmdbMovieBySearch(search) {
     try {
         const responsePageOne = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=1`)
 
+        // Om response returnerar false
         if (!responsePageOne.ok) {
             throw new Error(`HTTP error! Status: ${responsePageOne.status}`);
         }
+        // Hämtar hem första sidan
         let moviesPageOne = await responsePageOne.json();
         
         let moviesPageTwo = null;
 
+        // Om det finns fler än 10 filmer i arrayen
         if(parseInt(moviesPageOne.totalResults) > 10) {
             const responsePageTwo = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=2`)
 
+            // Om response returnerar false
             if (!responsePageTwo.ok) {
                 throw new Error(`HTTP error! Status: ${responsePageTwo.status}`);
             }
+            // Sparar ner sida två i arrayen
             moviesPageTwo = await responsePageTwo.json();
         }
-        // console.log(moviesPageOne);
-        
-        console.log(moviesPageTwo);
-        const combinedMovies = [...moviesPageOne.Search || [], ...moviesPageTwo.Search || [] ];
-        
-        console.log(combinedMovies);
-        
-        return combinedMovies;
+
+        // Om moviePageTwo innehåller filmer
+        if(moviesPageTwo !== null) {
+            const combinedMovies = [...moviesPageOne.Search, ...moviesPageTwo.Search];
+            return combinedMovies;
+        }
+        else {
+            return moviesPageOne;
+        }
 
     } catch (error) {
         console.log(`Failed to fetch ${search}`), error;
