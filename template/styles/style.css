@@ -254,7 +254,7 @@ body {
   }
 
   .card__favourite-box--smaller {
-      width: 5%;
+      width: 58px;
   }
   
 .movie {
@@ -357,10 +357,10 @@ body {
         grid-column: 1 / 4;
         grid-row: 3;
     }
-
+/* 
     .card__favourite-box--smaller {
-        width: 8%;
-    }
+        min-width: 58px;
+    } */
         
 }
 

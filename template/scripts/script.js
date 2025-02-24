@@ -41,7 +41,7 @@ function searchDropdown() {
 
             if (movies && movies.length > 0) {
                 let fiveMovies = movies.splice(0, 5);           
-                createSearchMovies(fiveMovies);
+                createSearchDropdownMovies(fiveMovies);
             } else {   
                 searchDropdownRef.innerHTML = `
                 <p class="search__no-title">There are no movies with this title</p>`;
@@ -69,12 +69,13 @@ function displaySearchDropdown () {
     });
 }
 
-
-function createSearchMovies(movies) {
+// Funktion för att skapa filmerna i dropdownmenyn
+function createSearchDropdownMovies(movies) {
     const searchDropdownRef = document.querySelector('.search__dropdown');
+    // För att få den att synas om man har klickat utanför dropdownen
     searchDropdownRef.style.display = 'block';
     searchDropdownRef.innerHTML = '';    
-    
+    // Loopen för att skapa 5 filmer
     for(let i = 0; i < movies.length; i++) {        
         const searchListItem = document.createElement('li')
         searchListItem.classList.add('search__list-item');
@@ -88,8 +89,8 @@ function createSearchMovies(movies) {
         ;
         searchDropdownRef.appendChild(searchListItem);
         
-        searchListItem.addEventListener('click', (event) => {
-            
+        // Lyssnare för att visa Moviemodal när man klickar på filmen från dropdownmenyn
+        searchListItem.addEventListener('click', (event) => {    
             showMovieModal(event.currentTarget.dataset.searchid);
         })
     }
@@ -99,11 +100,10 @@ document.addEventListener('click', (event) => {
     const searchDropdownRef = document.querySelector('.search__dropdown');
     const searchInputRef = document.querySelector('#searchInput');
     
-    // Kontroll om det finns något barn inne i .s
+    // Kontroll om det finns något barn inne i .search__dropdown
     if (searchDropdownRef.children.length > 0) {
         // Kontrollera om klicket INTE är inuti searchDropdownRef
         if (!searchDropdownRef.contains(event.target) && event.target !== searchInputRef) {
-            
             // Gömmer alla listitems från search när den klickas utanför
             searchDropdownRef.style.display = 'none';
         }
