@@ -1,11 +1,11 @@
 import { oData } from '../data/data.js';
 
 // Funktion för att ta bort stjärnmärk film i localStorage
-export function removeFavouriteFromLocalStorage(favoriteMovie) {
+export function removeFavouriteFromLocalStorage(favouriteId) {
     let storeData = JSON.parse(localStorage.getItem('favourites'));
 
     // Här sparas en ny array där favoriteMovie tas bort från storeData om den finns med där.
-    storeData = storeData.filter((data) => data.imdbID !== favoriteMovie.imdbID);
+    storeData = storeData.filter((data) => data.imdbID !== favouriteId);
 
     // Uppdatera localStorage med nya arrayen
     localStorage.setItem('favourites', JSON.stringify(storeData));

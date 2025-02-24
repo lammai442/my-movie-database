@@ -7,7 +7,9 @@ import {
 } from '../data/localStorage.js';
 import {favouriteSetup } from '../pageSetups/pageSetups.js';
 
+// Funktion för att skapa ett enskilt MovieCard
 export async function createMovieCard(poster, title, ratings, dataID) {
+    // Hämtar hem referens till vart movieCard ska läggas in
     const cardContainerRef = document.querySelector('.card-container');
 
     // Om poster har värdet av 'N/A' så ska det ersättas med en annan bild
@@ -15,6 +17,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
       poster = './res/icons/missing-poster.svg';
     }
 
+    // Skapande av korten
     let article = document.createElement('article');
     article.classList.add('card__movie');
     article.dataset.id = `${dataID}`;
@@ -36,7 +39,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
     `;
     // Lägg in nya card_movie i cardContainer
     cardContainerRef.appendChild(article);
-
+    
     // Hämtning av favouritstjärnan
     const cardFavouriteStarRef = article.querySelector('.card__favourite-star');
 
@@ -62,24 +65,31 @@ export async function createMovieCard(poster, title, ratings, dataID) {
             
             // Skicka med variabeln till localStorage
             saveFavouriteToLocalstorage('favourites',favouriteMovie);
+
+            if(window.location.pathname === '/template/favorites.html') {
+              favouriteSetup(); 
+            }
         }
         // Här tas den bort från oData.favourites
         else if (imgSrcRef.includes('star-solid.svg')) {
             // Byt ut favoritstjärnan till regular
             event.currentTarget.src = './res/icons/star-regular.svg';
-            favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
+
+            // favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
 
             // Här tas den bort från oData.favourites
             oData.favourites = oData.favourites.filter(
                 (favourite) => favourite.imdbID !== favouriteMovie.imdbID
             );
             // Här tas den bort från localStorage
-            removeFavouriteFromLocalStorage(favouriteMovie);
+            removeFavouriteFromLocalStorage(event.currentTarget.dataset.favouriteid);
 
-            favouriteSetup(); 
+            if(window.location.pathname === '/template/favorites.html') {
+              favouriteSetup(); 
+            }
         }
     });
-
+    
     // Skapar en referens till posterID
     const card__posterRef = document.querySelector(`[data-posterid="${dataID}"]`);
 
@@ -89,10 +99,10 @@ export async function createMovieCard(poster, title, ratings, dataID) {
         showMovieModal(event.target.dataset.posterid);
     });
 
-    // Skapar en referens till posterID
+    // Skapar en referens till titleId
     const card__titleRef = document.querySelector(`[data-titleid="${dataID}"]`);
 
-    // En lyssnare när man klickar på posterbilden som kör funktionen för att öppna en overlay för filmens detaljer
+    // En lyssnare när man klickar på titlte som kör funktionen för att öppna en overlay för filmens detaljer
     card__titleRef.addEventListener('click', (event) => {
         // showMovie(event.target.dataset.titleid);
         showMovieModal(event.target.dataset.titleid);
@@ -114,13 +124,13 @@ export async function showMovieModal(id) {
       movie.Poster = './res/icons/missing-poster.svg';
     }
 
-    // Lägg in innehåll i modalen (exempelvis filmens titel och poster)
+    // Lägg in filmens innehåll i modalen
     modal.innerHTML = `    
-    <section class="movie">
+    <article class="movie">
       <h2 class="movie__title">${movie.Title}</h2>
       <figure class="card__favourite-box card__favourite-box--smaller">
         <img class="card__favourite-bookmark" src="./res/icons/bookmark-solid.svg" alt="bookmark background">
-        <img class="card__favourite-star" src="./res/icons/star-regular.svg" alt="favourite star">
+        <img class="card__favourite-star" src="./res/icons/star-regular.svg" data-favouriteid="${movie.imdbID}" alt="favourite star">
       </figure>
       <section class="movie__info">
         <section class="movie__poster">
@@ -153,38 +163,133 @@ export async function showMovieModal(id) {
         </section>
       </section>
       <button id="movieCloseBtn" class="movie__close-btn">Close</button>
-    </section>
+    </article>
   `;
 
-  // JOBBA VIDARE MED DENNA FÖR ATT FÅ MODALEN STJÄRNMÄRKT!
-    // // Om filmen finns i localStorage så ska den ändras till stjärnmärkt
-    // if (doesMovieExistInFavourites(id)) {
-    //     // Ändra om stjärnan så att den är ifylld
-    //     cardFavouriteStarRef.src = './res/icons/star-solid.svg';
-    //   }
+    // Hämtning av referens till favouritstjärnan
+    const cardFavouriteStarRef = modal.querySelector('.card__favourite-star');
+
+    // Om filmen finns i localStorage så ska den ändras till stjärnmärkt
+    if (doesMovieExistInFavourites(cardFavouriteStarRef.dataset.favouriteid)) {
+        // Ändra om stjärnan så att den är ifylld
+        cardFavouriteStarRef.src = './res/icons/star-solid.svg';
+    }    
     
-    // Lägg modalinnehållet inuti overlay
-    overlay.appendChild(modal);
+    // Lyssnare på favouritestjärnan som också har async
+    cardFavouriteStarRef.addEventListener('click', async (event) => {
+      // Hämtar hem referensen för moviecardens img.src
+      const imgSrcRef = event.currentTarget.src;
+      
+      let favouriteMovie = '';
 
-    // Lägg till overlay i dokumentets body
-    document.body.appendChild(overlay);
+      // Här läggs filmen in i oData.favourites
+      if (imgSrcRef.includes('star-regular.svg')) {
+          // Byt ut favoritstjärnan till solid
+          event.currentTarget.src = './res/icons/star-solid.svg';
+          // Hämtar hem objektet för filmen och sparar i en variabel
+          favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
+          
+          // Skicka med variabeln till localStorage
+          saveFavouriteToLocalstorage('favourites',favouriteMovie);
 
-    // Stäng modalen om man klickar utanför modalinnehållet
-    overlay.addEventListener('click', function (event) {
-        if (event.target === overlay) {
-            overlay.remove();
-        }
-    });
+          if(window.location.pathname === '/template/favorites.html') {
+            favouriteSetup(); 
+          }
+      }
+      // Här tas den bort från oData.favourites
+      else if (imgSrcRef.includes('star-solid.svg')) {
+          // Byt ut favoritstjärnan till regular
+          event.currentTarget.src = './res/icons/star-regular.svg';
 
-    // En lyssnare för att ta bort Modalen
-    const movieCloseBtnRef = document.querySelector('#movieCloseBtn');
-    movieCloseBtnRef.addEventListener('click', () => {
-        overlay.remove();
-    });
+          // favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.favouriteid);
+
+          // Här tas den bort från oData.favourites
+          oData.favourites = oData.favourites.filter(
+              (favourite) => favourite.imdbID !== favouriteMovie.imdbID
+          );
+          // Här tas den bort från localStorage
+          removeFavouriteFromLocalStorage(event.currentTarget.dataset.favouriteid);
+
+          if(window.location.pathname === '/template/favorites.html') {
+            favouriteSetup(); 
+          }
+      }
+  });
+  
+  // Lägg modalinnehållet inuti overlay
+  overlay.appendChild(modal);
+  
+  // Lägg till overlay i dokumentets body
+  document.body.appendChild(overlay);
+
+
+  // Stäng modalen om man klickar utanför modalinnehållet
+  overlay.addEventListener('click', async function (event) {
+      if (event.target === overlay) {
+          overlay.remove();
+
+      // Hämtning av favouritstjärnan
+      const cardFavouriteStarRef = modal.querySelector('.card__favourite-star');
+      // Uppdaterar favouritstjärnan
+      updateFavouriteOnMovieCard(cardFavouriteStarRef.dataset.favouriteid);
+
+      if(window.location.pathname === '/template/favorites.html') {
+        favouriteSetup(); 
+      }
+      }
+  });
+
+  // En lyssnare för att ta bort Modalen
+  const movieCloseBtnRef = document.querySelector('#movieCloseBtn');
+  movieCloseBtnRef.addEventListener('click', () => {
+    overlay.remove();
+      // Hämtning av favouritstjärnan
+      const cardFavouriteStarRef = modal.querySelector('.card__favourite-star');
+      // Uppdaterar favouritstjärnan
+      updateFavouriteOnMovieCard(cardFavouriteStarRef.dataset.favouriteid);
+
+      if(window.location.pathname === '/template/favorites.html') {
+        favouriteSetup(); 
+      }
+  });
 }
 
+// Funktion för att skapa alla MovieCards
 export function createAllMovieCards(movies) {
   for(let i= 0; i < movies.length; i++) {
       createMovieCard(movies[i].Poster, movies[i].Title, movies[i].imdbRating, movies[i].imdbID);            
+      }
+}
+
+// Funktion för att uppdatera favouritestjärnan på movieCard efter modalen stängt ner
+function updateMovieCardFavourite(dataId) {
+  // Här letar den upp favoritstjärnan
+  const movieCard = document.querySelector(`[data-favouriteid="${dataId}"]`);
+  
+  // Kontroll om filmen existerar i localStorage 
+  if (doesMovieExistInFavourites(dataId)) {      
+      movieCard.src = './res/icons/star-solid.svg'; // Sätt till fylld stjärna
+      
+  } else if (movieCard) {
+      movieCard.src = './res/icons/star-regular.svg'; // Sätt till tom stjärna      
+  }
+}
+
+function updateFavouriteOnMovieCard(favouriteid){
+    // Om filmen finns i localStorage så ska den ändras till stjärnmärkt
+    if (doesMovieExistInFavourites(favouriteid)) {
+      // Ändra om stjärnan så att den är solid
+      updateMovieCardFavourite(favouriteid);
+    } 
+    // Om filmen INTE finns i localStorage så ska den ändras till stjärnmärkt
+    else if (!(doesMovieExistInFavourites(favouriteid))) {
+      // Ändra om stjärnan så att den är regular
+      updateMovieCardFavourite(favouriteid);
+      
+      // Här tas den bort från localStorage
+      removeFavouriteFromLocalStorage(favouriteid);
+      
+      // Här tas den bort från oData.favourites
+      oData.favourites = oData.favourites.filter((favourite) => favourite.imdbID !== favouriteid);
       }
 }

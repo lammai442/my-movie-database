@@ -28,12 +28,15 @@ export async function indexSetup() {
     createAllMovieCards(oData.MovieByHighestRating);
 }
 
+// Funktion för att sätta upp favoritsidan
 export function favouriteSetup() {
     const favouriteCardContainerRef = document.querySelector('#favouriteCardContainer');
+    // Tömmer innehållet från tidigare
     favouriteCardContainerRef.innerHTML = '';
     
+    // Hämtar hem från LocalStorage med keyname 'favourites'
     let favourites = getLocalStorage('favourites');
-    
+    // Om det finns någon film i 'favourites' skapas korten
     if(favourites.length > 0) {
         createAllMovieCards(favourites);
     }
