@@ -324,6 +324,10 @@ body {
     align-self: flex-end;
 }
 
+.empty-msg {
+    text-align: center;
+}
+
 /* ==== MEDIA QUERIES ==== */
 .search-title {
     color: var(--text-white);
