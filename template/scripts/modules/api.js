@@ -23,11 +23,24 @@ export async function fetchTopMovies() {
 
 // Funktion för att hämta filmer genom imdbId
 export async function fetchOmdbMovie(id) {
-    const response = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&plot=full&i=${id}`)
-    let movie = await response.json();
-    oData.movie = movie;
+    try {
+        const response = await fetch(`http://www.omdbapi.com/?apikey=fa992dba&plot=full&i=${id}`)
+        if (!response.ok) {
+            throw new Error (`HTTP error! Status: ${response.status} `)
+        }
+        let movie = await response.json();
+        oData.movie = movie;
+        return movie;
 
-    return movie;
+    } catch (error) {
+        console.log(`Failed to fetch movie`), error;
+        return null;
+    }
+
+
+
+
+
 }
 
 // Funktion för att hämta filmer genom sökord

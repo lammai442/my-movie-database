@@ -1,9 +1,11 @@
 import { oData } from '../data/data.js';
-import { fetchTopMovies } from '../modules/api.js';
+import { fetchTopMovies, fetchOmdbMovieBySearch } from '../modules/api.js';
 import { renderTrailers } from '../modules/caroussel.js';
 import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from '../utils/utils.js';
 import { createMovieCard, createAllMovieCards } from '../components/movieCard.js';
-import { getLocalStorage} from '../data/localStorage.js'
+import { getLocalStorage} from '../data/localStorage.js';
+import { checksearchDropdownListener } from '../utils/eventListener.js';
+import { searchDropdown, submitSearch } from '../utils/search.js';
 
 // Funktion för att sätta upp startsidan
 export async function indexSetup() {
@@ -26,6 +28,8 @@ export async function indexSetup() {
 
     // Funktion för skapa alla movieCards
     createAllMovieCards(oData.MovieByHighestRating);
+    
+    checksearchDropdownListener();
 }
 
 // Funktion för att sätta upp favoritsidan
@@ -42,6 +46,39 @@ export function favouriteSetup() {
     }
     // Om ingen film är sjärnmarkerad så syns denna 
     else {
-        favouriteCardContainerRef.innerHTML = `<p>Här var det tomt</p>`;
-    }        
+        favouriteCardContainerRef.innerHTML = `<p class="empty-msg">You haven't chosen any favourite movie yet!</p>`;
+    }
+    
+    checksearchDropdownListener();
+}
+
+// Funktion för att sätt upp searchsidan
+export async function searchSetup() {
+    const searchContainerRef = document.querySelector('#searchContainer');
+    searchContainerRef.innerHTML = '';
+
+    // Hämtar hem sökordet från localStorage
+    let search = getLocalStorage('search');
+    
+    // Hämtar hem en array som har sökordet genom API
+    let movie = await fetchOmdbMovieBySearch(search);
+    
+    // Här kontrolleras ifall det har returnerat en movie.Error och då kommer följande felmeddelande fram
+    if(movie.Error) {
+        searchContainerRef.innerHTML = `
+        <p class="empty-msg">The movie doesn't exist in the database.</p>
+        `;
+    } 
+    // Om movie returneras med en array med filmer så körs detta
+    else {
+        // hämtar hem alla detaljer från filmerna
+        let fullMovieDetails = await getAllMovieDetails(movie);
+        
+        // Loopar för att skapa moviecards i söksidan.
+        createAllMovieCards(fullMovieDetails);        
+    }
+
+    // searchDropdown();
+    // submitSearch();
+    checksearchDropdownListener();
 }
