@@ -32,6 +32,10 @@ body {
     margin: 0 auto;
 }
 
+.content-wrapper--margin-bottom {
+    margin-bottom: 2rem;
+}
+
 .d-none {
     display: none;
 }
@@ -43,19 +47,27 @@ body {
     z-index: 999;
 }
 
-.header__flex {
+/* .header__flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
+} */
+
+.header__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .header__logo {
     width: 150px;
     background-color: var(--text-yellow);
+    grid-column: 1 / 2;
 }
 
 .header__search-bar {
     width: 100%;
+    grid-column: 2 / span 2;
+    align-self: center;
 }
 
 .header__form {
@@ -75,6 +87,17 @@ body {
 .header__form-btn {
     border-radius: 0 2rem 2rem 0;
     width: 5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.header__nav-btn {
+    align-self: center;
+    justify-self: end;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: var(--text-yellow);
+    background: none;
     border: none;
     cursor: pointer;
 }
@@ -128,15 +151,6 @@ body {
     background-color: var(--primary-white);
     margin-bottom: .5rem;
     padding: 1rem;
-}
-
-.header__nav-btn {
-    text-decoration: none;
-    font-size: 1.5rem;
-    color: var(--text-yellow);
-    background: none;
-    border: none;
-    cursor: pointer;
 }
 
 /* ==== Index page ==== */
@@ -247,7 +261,8 @@ body {
     width: 90%;
     padding: 20px;
     border-radius: 8px;
-    position: relative;
+    position: absolute;
+    top: 5%;
     color: white;
     border: 1px solid #F5C518;
     overflow: hidden;
@@ -361,12 +376,45 @@ body {
         grid-column: 1 / 4;
         grid-row: 3;
     }
-/* 
-    .card__favourite-box--smaller {
-        min-width: 58px;
-    } */
-        
+    
+    .header__grid {
+        gap: .57rem;
+    }
+
+    .header__nav-btn {
+        grid-column: 4;
+        justify-self: end;
+    }
+
+    .search__dropdown {
+        left: 0%;
+        width: 100%;
+    }
+
+    .header__search-bar {
+        grid-column: 3 / span 2;
+        grid-row: 2 / 3;
+    }
+
+    .header__input {
+        width: 100%;
+    }       
+    
+    .modal-content {
+        top: 3%;
+        overflow-y: auto; /* Gör det möjligt att scrolla innehållet vertikalt */
+        max-height: 55vh;  /* Sätter en maxhöjd för modalen så att den inte blir för stor */
+    }
 }
+
+@media screen and (max-width: 600px) {
+    .header__search-bar {
+        grid-column: 1 / span 4;
+        grid-row: 2 / 3;
+    }
+}
+
+
 
 /* ==== Index page ==== */
 .content-wrapper--margin-top {
