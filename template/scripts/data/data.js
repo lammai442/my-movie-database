@@ -1,5 +1,5 @@
 import { removeSearchLocalStorage, saveFavouriteToLocalstorage, getLocalStorage} from "./localStorage.js";
-import { searchSetup } from '../pageSetups/pageSetups.js';
+import { searchPageSetup } from '../pageSetups/pageSetups.js';
 
 
 // Globala data

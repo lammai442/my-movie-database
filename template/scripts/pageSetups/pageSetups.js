@@ -2,13 +2,13 @@ import { oData } from '../data/data.js';
 import { fetchTopMovies, fetchOmdbMovieBySearch } from '../modules/api.js';
 import { renderTrailers } from '../modules/caroussel.js';
 import { shuffleArray, MovieByHighestRating, getAllMovieDetails } from '../utils/utils.js';
-import { createMovieCard, createAllMovieCards } from '../components/movieCard.js';
+import { createAllMovieCards } from '../components/movieCard.js';
 import { getLocalStorage} from '../data/localStorage.js';
 import { checksearchDropdownListener } from '../utils/eventListener.js';
 import { searchDropdown, submitSearch } from '../utils/search.js';
 
 // Funktion för att sätta upp startsidan
-export async function indexSetup() {
+export async function indexPageSetup() {
     // Hämtar hem topfilmer från Jespers databas och lägger in i oData.topMoviesList
     await fetchTopMovies();
 
@@ -29,11 +29,14 @@ export async function indexSetup() {
     // Funktion för skapa alla movieCards
     createAllMovieCards(oData.MovieByHighestRating);
     
+    // Aktivering av sökfunktioner
+    searchDropdown();
+    submitSearch();
     checksearchDropdownListener();
 }
 
 // Funktion för att sätta upp favoritsidan
-export function favouriteSetup() {
+export function favouritePageSetup() {
     const favouriteCardContainerRef = document.querySelector('#favouriteCardContainer');
     // Tömmer innehållet från tidigare
     favouriteCardContainerRef.innerHTML = '';
@@ -48,12 +51,14 @@ export function favouriteSetup() {
     else {
         favouriteCardContainerRef.innerHTML = `<p class="empty-msg">You haven't chosen any favourite movie yet!</p>`;
     }
-    
+    // Aktivering av sökfunktioner
+    searchDropdown();
+    submitSearch();
     checksearchDropdownListener();
 }
 
 // Funktion för att sätt upp searchsidan
-export async function searchSetup() {
+export async function searchPageSetup() {
     const searchContainerRef = document.querySelector('#searchContainer');
     searchContainerRef.innerHTML = '';
 
@@ -71,14 +76,15 @@ export async function searchSetup() {
     } 
     // Om movie returneras med en array med filmer så körs detta
     else {
-        // hämtar hem alla detaljer från filmerna
+        // Hämtar hem alla detaljer från filmerna
         let fullMovieDetails = await getAllMovieDetails(movie);
         
         // Loopar för att skapa moviecards i söksidan.
         createAllMovieCards(fullMovieDetails);        
     }
 
-    // searchDropdown();
-    // submitSearch();
+    // Aktivering av sökfunktioner
+    searchDropdown();
+    submitSearch();
     checksearchDropdownListener();
 }

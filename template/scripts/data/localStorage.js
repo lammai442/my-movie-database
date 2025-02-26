@@ -26,16 +26,16 @@ export function saveFavouriteToLocalstorage(keyname, input) {
     localStorage.setItem(`${keyname}`, JSON.stringify(oData.favourites));
 }
 
+// Funktion för att hämta och returnera localStorage med keyname som input
 export function getLocalStorage(keyname) {
     const storeData = localStorage.getItem(`${keyname}`) || '[]';
 
     return JSON.parse(storeData);
 }
 
-export function removeSearchLocalStorage() {
-    let storeData = JSON.parse(localStorage.getItem(`${'search'}`))
-
-    storeData = [];
+// Funktion för att ta bort sökning från localStorage
+export function removeSearchLocalStorage() {    
+    let storeData = [];
 
     localStorage.setItem('search', JSON.stringify(storeData));
 }

@@ -1,22 +1,24 @@
 import { showMovieModal } from '../components/movieCard.js';
 import { fetchOmdbMovieBySearch } from '../modules/api.js';
 import { removeSearchLocalStorage, saveFavouriteToLocalstorage } from '../data/localStorage.js'
-import { searchSetup } from '../pageSetups/pageSetups.js';
+import { searchPageSetup } from '../pageSetups/pageSetups.js';
 
+// Funktion för att aktivera dropdown på sökfältet
 export function searchDropdown() {
-    // Visar dropdownmeny igen
+    // Visar dropdownmeny igen om den tidigare funnits
     displaySearchDropdown();
 
     const searchInputRef = document.querySelector('#searchInput');
     const searchDropdownRef = document.querySelector('.search__dropdown');
 
     searchInputRef.addEventListener('input', async (event) => {        
-        // event.preventDefault();
+        // Sparar sökinputet och överflödig mellanslag i början/slutet tas bort
         const searchInput = event.target.value.trim();
         
+        // En begränsning så att den aktiveras efter minst tre tecken
         if (searchInput.length > 2) {
                         
-            let movies = await fetchOmdbMovieBySearch(searchInput)
+            let movies = await fetchOmdbMovieBySearch(searchInput);
 
             if (movies && movies.length > 0) {
                 let fiveMovies = movies.splice(0, 5);           
@@ -46,7 +48,6 @@ export function displaySearchDropdown () {
     });
 }
 
-
 // Funktion för att skapa filmerna i dropdownmenyn
 function createSearchDropdownMovies(movies) {
     const searchDropdownRef = document.querySelector('.search__dropdown');
@@ -74,6 +75,7 @@ function createSearchDropdownMovies(movies) {
     }
 }
 
+// Funktion när man har gjort en sökning
 export function submitSearch() {
     const searchFormRef = document.querySelector('#searchForm');
 
@@ -88,11 +90,11 @@ export function submitSearch() {
         if (window.location.pathname !== '/template/search.html') {
             // När man har submittat sökningen så byts det till detta fönster
             window.location.href = `/template/search.html`;
-            searchSetup();
+            searchPageSetup();
         } 
         // Om den är på samma searchsidan så laddas inte sidan om.
         else if (window.location.pathname === '/template/search.html') {
-            searchSetup();
+            searchPageSetup();
         }
     })
 }
