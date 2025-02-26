@@ -1,9 +1,9 @@
 import { oData } from '../data/data.js';
 import { fetchOmdbMovie } from '../modules/api.js';
 import { saveFavouriteToLocalstorage, removeFavouriteFromLocalStorage, } from '../data/localStorage.js';
-import { favouriteSetup } from '../pageSetups/pageSetups.js';
+import { favouritePageSetup } from '../pageSetups/pageSetups.js';
 
-//Fisher-Yates shuffle algorithm (https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
+//Fisher-Yates shuffle algorithm
 export function shuffleArray(array) {
     let i, j, temp;
     for (i = array.length - 1; i > 0; i--) {
@@ -89,7 +89,7 @@ export function favouriteStarSetup(dataId, action) {
             saveFavouriteToLocalstorage('favourites',favouriteMovie);
   
             if(window.location.pathname === '/template/favorites.html') {
-              favouriteSetup(); 
+              favouritePageSetup(); 
             }
         }
         // Här tas den bort från oData.favourites
@@ -105,7 +105,7 @@ export function favouriteStarSetup(dataId, action) {
             removeFavouriteFromLocalStorage(event.currentTarget.dataset.dataid);
   
             if(window.location.pathname === '/template/favorites.html') {
-              favouriteSetup();
+              favouritePageSetup();
             }
         }
     });

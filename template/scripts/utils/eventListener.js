@@ -1,5 +1,5 @@
 import { updateFavouriteOnMovieCard } from '../components/movieCard.js';
-import { favouriteSetup } from '../pageSetups/pageSetups.js';
+import { favouritePageSetup } from '../pageSetups/pageSetups.js';
 
 // Listener för att ta bort Modalen genom 'Close'-btn
 export function closeMovieModalBtnListener(dataID) {
@@ -14,11 +14,11 @@ export function closeMovieModalBtnListener(dataID) {
       if(window.location.pathname === '/template/index.html') {
         // Uppdaterar favouritstjärnan på movieCard
       updateFavouriteOnMovieCard(dataID);
-      // Om det är favouritesidan körs favouriteSetup
+      // Om det är favouritesidan körs favouritePageSetup
       }
 
       if(window.location.pathname === '/template/favorites.html') {
-        favouriteSetup(); 
+        favouritePageSetup(); 
       }
 
       if(window.location.pathname === '/template/search.html') {
@@ -28,7 +28,7 @@ export function closeMovieModalBtnListener(dataID) {
   });
 }
 
-// Listener för att stänga ner Modalen
+// Listener för att stänga ner Modalen vid click utanför modalContent
 export function closeModalListener() {
   const overlay = document.querySelector('.modal-overlay');
   const modal = document.querySelector('.modal-content');
@@ -46,7 +46,7 @@ export function closeModalListener() {
         }
 
         if(window.location.pathname === '/template/favorites.html') {
-          favouriteSetup(); 
+          favouritePageSetup(); 
         }
 
         if(window.location.pathname === '/template/search.html') {
@@ -57,6 +57,7 @@ export function closeModalListener() {
   });
 }
 
+// Lyssnare för att gömma searchDropdown vid klick utanför
 export function checksearchDropdownListener() {
     document.addEventListener('click', (event) => {
         const searchDropdownRef = document.querySelector('.search__dropdown');

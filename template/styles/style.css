@@ -106,8 +106,8 @@ body {
     border-radius: 10px;
     position: absolute;
     top: 110%;
-    left: 20%;
-    width: 60%;
+    left: 18%;
+    width: 64%;
     background-color: white;
     overflow: hidden;
     z-index: 900;
@@ -167,6 +167,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(200px, 223px));
     justify-content: center;
     gap: 1rem;
+    
 }
 
 .card__movie {
@@ -174,6 +175,7 @@ body {
     height: 100%;
     background-color: var(--primary-grey);
     border-radius: 10px;
+    border: 1px solid #F5C518;
     overflow: hidden;
 }
 
@@ -379,6 +381,7 @@ body {
     
     .header__grid {
         gap: .57rem;
+        grid-template-columns: 1fr 2fr 1fr;
     }
 
     .header__nav-btn {
@@ -387,17 +390,17 @@ body {
     }
 
     .search__dropdown {
-        left: 0%;
-        width: 100%;
+        left: 5%;
+        width: 90%;
     }
 
     .header__search-bar {
-        grid-column: 3 / span 2;
-        grid-row: 2 / 3;
+        grid-column: 2 / span 2;
+        /* grid-row: 2 / 3; */
     }
 
     .header__input {
-        width: 100%;
+        width: 70%;
     }       
     
     .modal-content {
