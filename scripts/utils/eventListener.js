@@ -11,16 +11,16 @@ export function closeMovieModalBtnListener(dataID) {
       // Borttagning av overlayen bakom movieModal
       overlayRef.remove();
 
-      if(window.location.pathname === '/template/index.html') {
+      if(window.location.pathname === '/index.html') {
       // Uppdaterar favouritstjärnan på movieCard
       updateFavouriteOnMovieCard(dataID);
       }
 
-      if(window.location.pathname === '/template/favorites.html') {
+      if(window.location.pathname === '/favorites.html') {
         favouritePageSetup(); 
       }
 
-      if(window.location.pathname === '/template/search.html') {
+      if(window.location.pathname === '/search.html') {
         // Uppdaterar favouritstjärnan      
         updateFavouriteOnMovieCard(dataID);
       }
@@ -39,16 +39,16 @@ export function closeModalListener() {
         // Hämtning av favouritstjärnan
         const cardFavouriteStarRef = modal.querySelector('.card__favourite-star');
         
-        if(window.location.pathname === '/template/index.html') {
+        if(window.location.pathname === '/index.html') {
           // Uppdaterar favouritstjärnan      
           updateFavouriteOnMovieCard(cardFavouriteStarRef.dataset.dataid);
         }
 
-        if(window.location.pathname === '/template/favorites.html') {
+        if(window.location.pathname === '/favorites.html') {
           favouritePageSetup(); 
         }
 
-        if(window.location.pathname === '/template/search.html') {
+        if(window.location.pathname === '/search.html') {
           // Uppdaterar favouritstjärnan      
           updateFavouriteOnMovieCard(cardFavouriteStarRef.dataset.dataid);
         }

@@ -1,4 +1,4 @@
-![logo](/template/res/logo.png)
+![logo](/res/logo.png)
 
 # Individual school examination - My Movie Database
 

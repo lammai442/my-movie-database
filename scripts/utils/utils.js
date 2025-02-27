@@ -88,7 +88,7 @@ export function favouriteStarSetup(dataId, action) {
             // Skicka med variabeln till localStorage
             saveFavouriteToLocalstorage('favourites',favouriteMovie);
   
-            if(window.location.pathname === '/template/favorites.html') {
+            if(window.location.pathname === '/favorites.html') {
               favouritePageSetup(); 
             }
         }
@@ -104,7 +104,7 @@ export function favouriteStarSetup(dataId, action) {
             // Här tas den bort från localStorage
             removeFavouriteFromLocalStorage(event.currentTarget.dataset.dataid);
   
-            if(window.location.pathname === '/template/favorites.html') {
+            if(window.location.pathname === '/favorites.html') {
               favouritePageSetup();
             }
         }
