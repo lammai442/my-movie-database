@@ -24,8 +24,9 @@ export async function indexPageSetup() {
     // Omvandlar arrayen topMovieList så att den har mer detailjer
     let fullMovieDetails = await getAllMovieDetails(oData.topMovieList);     
     // Lägger in top 20 filmer med högst ranking först från Jespers databas
+    
     oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails).slice(0, 20);        
-
+    
     // Funktion för skapa alla movieCards
     createAllMovieCards(oData.MovieByHighestRating);
     
