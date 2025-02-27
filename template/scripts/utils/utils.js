@@ -50,6 +50,7 @@ export function doesMovieExistInFavourites(id) {
     }
 }
 
+// Funktion för att sätta status på stjärnmarkering
 export function favouriteStarSetup(dataId, action) {
     let cardFavouriteStarRef = [];
 
@@ -78,11 +79,10 @@ export function favouriteStarSetup(dataId, action) {
         
         // Här läggs filmen in i oData.favourites
         if (imgSrcRef.includes('star-regular.svg')) {
-            // debugger;
             // Byt ut favoritstjärnan till solid
             event.currentTarget.src = './res/icons/star-solid.svg';
-            // Hämtar hem objektet för filmen och sparar i en variabel
             
+            // Hämtar hem objektet för filmen och sparar i en variabel
             favouriteMovie = await fetchOmdbMovie(event.currentTarget.dataset.dataid);
             
             // Skicka med variabeln till localStorage

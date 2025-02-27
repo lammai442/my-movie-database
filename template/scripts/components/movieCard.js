@@ -26,7 +26,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
     article.dataset.id = `${dataID}`;
     article.innerHTML = `
             <section class="card__top">
-              <img class="card__poster" data-posterid="${dataID}"src="${poster}" alt="movie poster">
+              <img class="card__poster" data-posterid="${dataID}"src="${poster}" alt="movie poster for ${title}">
               <figure class="card__favourite-box">
                 <img class="card__favourite-bookmark" src="./res/icons/bookmark-solid.svg" alt="bookmark background">
                 <img class="card__favourite-star" src="./res/icons/star-regular.svg" data-dataid="${dataID}" alt="favourite star">
@@ -51,6 +51,7 @@ export async function createMovieCard(poster, title, ratings, dataID) {
     referensToMovieModal(dataID);
 }
 
+// Funktion för att visa Modal
 export async function showMovieModal(id) {
     const movie = await fetchOmdbMovie(id);
     // Skapa overlay-elementet
@@ -76,7 +77,7 @@ export async function showMovieModal(id) {
       </figure>
       <section class="movie__info">
         <section class="movie__poster">
-          <img class="movie__poster-img" src="${movie.Poster}" alt="${movie.Title}">
+          <img class="movie__poster-img" src="${movie.Poster}" alt="Movie poster of ${movie.Title}">
         </section>
         <section class="movie__top-info">
             <p class="movie__summary"><strong>Rated</strong>: ${movie.Rated}</p>

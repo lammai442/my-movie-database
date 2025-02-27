@@ -12,9 +12,8 @@ export function closeMovieModalBtnListener(dataID) {
       overlayRef.remove();
 
       if(window.location.pathname === '/template/index.html') {
-        // Uppdaterar favouritstjärnan på movieCard
+      // Uppdaterar favouritstjärnan på movieCard
       updateFavouriteOnMovieCard(dataID);
-      // Om det är favouritesidan körs favouritePageSetup
       }
 
       if(window.location.pathname === '/template/favorites.html') {
