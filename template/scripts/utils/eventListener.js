@@ -72,3 +72,34 @@ export function checksearchDropdownListener() {
         }
     });
 }
+
+// Lyssnare för att ta bort trailerIframe
+export function closeTrailerListener() {
+  const overlay = document.querySelector('.modal-overlay');
+
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) {
+        overlay.remove();
+    }
+  });
+}
+
+// Lyssnare för att skapa trailerIframe
+export function trailerIframeListener(trailerLink, dataID) {
+    const trailerBtnRef = document.querySelector(`[data-trailerid="${dataID}`);
+    
+    // eventlyssnare
+    trailerBtnRef.addEventListener('click', () => {
+      const overlay = document.createElement('div');
+      overlay.classList.add('modal-overlay');
+
+      overlay.innerHTML = `
+          <iframe src="${trailerLink}" class="iframe" width="800" height="500"></iframe>
+      `
+      // Lägg till overlay i dokumentets body
+      document.body.appendChild(overlay);
+
+      // Lägg till eventlyssnare för att stänga overlay när man klickar utanför modalContent
+      closeTrailerListener();
+    })
+}

@@ -4,7 +4,7 @@ import { doesMovieExistInFavourites, favouriteStarSetup } from '../utils/utils.j
 import {
     removeFavouriteFromLocalStorage
 } from '../data/localStorage.js';
-import { closeMovieModalBtnListener, closeModalListener } from '../utils/eventListener.js';
+import { closeMovieModalBtnListener, closeModalListener, trailerIframeListener } from '../utils/eventListener.js';
 
 // Funktion för att skapa ett enskilt MovieCard
 export async function createMovieCard(poster, title, ratings, dataID) {
@@ -44,12 +44,40 @@ export async function createMovieCard(poster, title, ratings, dataID) {
     // Lägg in nya card_movie i cardContainer
     cardContainerRef.appendChild(article);
 
+    const movie = oData.topMovieList.find(movie => movie.imdbID === dataID);
+    let trailerLink = '';
+    if (movie && movie.Trailer_link) {
+      trailerLink = movie.Trailer_link;
+    }
+
+    // Om det finns en trailerlink körs denna
+    if(trailerLink !== '') {
+      trailerSetup(trailerLink, dataID)
+    }
+
     // Sätter upp statusen för favouriteStar
     favouriteStarSetup(dataID, 'movieCard');
 
     // Funktion för att öppna movieModal när man klickar på poster/title
     referensToMovieModal(dataID);
+
 }
+
+// Funktion för att lägga till trailerLänk
+function trailerSetup (trailerLink, dataID) {
+    const posterIdRef = document.querySelector(`[data-posterid='${dataID}']`)
+    const trailerBtn = document.createElement('button');
+    trailerBtn.textContent = 'Trailer';
+    trailerBtn.classList.add('card__trailer-btn');
+    trailerBtn.setAttribute('data-trailerid', dataID)
+
+    posterIdRef.after(trailerBtn);
+    
+    // Skapa trailerIframe 
+    trailerIframeListener(trailerLink, dataID);
+}
+
+
 
 // Funktion för att visa Modal
 export async function showMovieModal(id) {
