@@ -5,13 +5,11 @@
 /* Variables */
 :root {
     --header-grey: #121212;
-    /* Primary BG bör vara din bakgrundsfärg */
     --primary-bg: #000000;
     --primary-white: #ffffff;
     --primary-grey: #1A1A1A;
     --text-yellow: #F5C518;
     --text-white: #ffffff;
-
 }
 
 /* Base */
@@ -19,6 +17,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: Montserrat, sans-serif;
 }
 
 body {
@@ -40,18 +39,13 @@ body {
     display: none;
 }
 
+/* ==== Header section ==== */
 .header {
     background-color: var(--header-grey);
     width: 100%;
     padding: 1.5rem;
     z-index: 999;
 }
-
-/* .header__flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} */
 
 .header__grid {
     display: grid;
@@ -102,6 +96,7 @@ body {
     cursor: pointer;
 }
 
+/* ==== Search section ==== */
 .search__dropdown {
     border-radius: 10px;
     position: absolute;
@@ -139,12 +134,12 @@ body {
 }
 
 .search__movie-info {
-    padding: 1rem;
+    padding: .5rem;
 }
 
 .search__title {
     margin-bottom: .2rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .search__no-title {
@@ -153,13 +148,23 @@ body {
     padding: 1rem;
 }
 
+.search-title {
+    color: var(--text-white);
+    text-align: center;
+    margin: 2rem;
+}
+
 /* ==== Index page ==== */
-/* Our recommended movies section */
+/* TOP 20 HIGHEST RATING MOVIES */   
 .content-wrapper__title {
     color: var(--text-white);
     text-align: center;
     margin-bottom: 2rem;
 }
+
+.content-wrapper--margin-top {
+    margin-top: 2rem;
+    }
 
 .card-container {
     color: var(--text-white);
@@ -167,7 +172,6 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(200px, 223px));
     justify-content: center;
     gap: 1rem;
-    
 }
 
 .card__movie {
@@ -177,6 +181,12 @@ body {
     border-radius: 10px;
     border: 1px solid #F5C518;
     overflow: hidden;
+    box-shadow: 0 0 0px white;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card__movie:hover {
+    box-shadow: 0 0 30px white;
 }
 
 .card__top {
@@ -242,7 +252,6 @@ body {
 }
 
 /* ==== Movie overlay ==== */
-/* Overlay som täcker hela skärmen med 90% opacitet*/
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -256,8 +265,7 @@ body {
     z-index: 1000;
   }
   
-  /* Modalinnehåll med max-width på 900px */
-  .modal-content {
+.modal-content {
     background: var(--primary-bg);
     max-width: 900px;
     width: 90%;
@@ -270,8 +278,8 @@ body {
     overflow: hidden;
   }
 
-  .card__favourite-box--smaller {
-      width: 58px;
+.card__favourite-box--smaller {
+    width: 58px;
   }
   
 .movie {
@@ -344,18 +352,33 @@ body {
 .empty-msg {
     text-align: center;
 }
-
-/* ==== MEDIA QUERIES ==== */
-.search-title {
-    color: var(--text-white);
-    text-align: center;
-    margin: 2rem;
-}
-
  
 /* ==== MEDIA QUERIES ==== */
 @media screen and (max-width: 900px) { 
     /* Moviecard i overlay */
+    .header__grid {
+        gap: .57rem;
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+
+    .header__nav-btn {
+        grid-column: 4;
+        justify-self: end;
+    }
+
+    .search__dropdown {
+        left: 5%;
+        width: 90%;
+    }
+
+    .header__search-bar {
+        grid-column: 2 / span 2;
+    }
+
+    .header__input {
+        width: 70%;
+    }  
+
     .movie__poster {
         max-height: 200px;
         max-width: 150px;
@@ -378,34 +401,11 @@ body {
         grid-column: 1 / 4;
         grid-row: 3;
     }
-    
-    .header__grid {
-        gap: .57rem;
-        grid-template-columns: 1fr 2fr 1fr;
-    }
-
-    .header__nav-btn {
-        grid-column: 4;
-        justify-self: end;
-    }
-
-    .search__dropdown {
-        left: 5%;
-        width: 90%;
-    }
-
-    .header__search-bar {
-        grid-column: 2 / span 2;
-        /* grid-row: 2 / 3; */
-    }
-
-    .header__input {
-        width: 70%;
-    }       
-    
+      
     .modal-content {
         top: 3%;
         overflow-y: auto; /* Gör det möjligt att scrolla innehållet vertikalt */
+        scrollbar-width: none;
         max-height: 55vh;  /* Sätter en maxhöjd för modalen så att den inte blir för stor */
     }
 }
@@ -416,12 +416,3 @@ body {
         grid-row: 2 / 3;
     }
 }
-
-
-
-/* ==== Index page ==== */
-.content-wrapper--margin-top {
-margin-top: 2rem;
-}
-
-

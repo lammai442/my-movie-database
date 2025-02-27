@@ -36,11 +36,6 @@ export async function fetchOmdbMovie(id) {
         console.log(`Failed to fetch movie`), error;
         return null;
     }
-
-
-
-
-
 }
 
 // Funktion för att hämta filmer genom sökord
