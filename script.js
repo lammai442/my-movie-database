@@ -12,6 +12,8 @@ if (
 	window.location.pathname === '/my-movie-database/' ||
 	window.location.pathname === '/my-movie-database/index.html'
 ) {
+	console.log('här');
+
 	indexPageSetup();
 }
 
