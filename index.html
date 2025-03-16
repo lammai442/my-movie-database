@@ -1,71 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Movie Database</title>
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="shortcut icon" href="./res/logo.png" type="image/x-icon">
-    <script
-      src="https://kit.fontawesome.com/f300007e95.js"
-      crossorigin="anonymous"
-    ></script>
-    <script type="module" src="./scripts/script.js"></script>
-  </head>
-  <body>
-    <header class="header">
-      <div class="content-wrapper header__grid">
-        <a href="index.html"
-          ><img class="header__logo" src="./res/logo.png" alt="logotype"
-        /></a>
-        <section class="header__search-bar">
-          <form class="header__form" id="searchForm">
-            <input
-            class="header__input"
-            id="searchInput"
-            type="text"
-            aria-label="Search" 
-            autocomplete="off"
-            />
-            <button class="header__form-btn" id="searchBtn">Search</button>
-            <ol class="search__dropdown">
-            </ol>
-          </form>
-        </section>
-        <a href="./favorites.html" class="header__nav-btn" id="favBtn"
-          >Favorites</a
-        >
-      </div>
-    </header>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>My Movie Database</title>
+		<link rel="stylesheet" href="./styles/style.css" />
+		<link rel="shortcut icon" href="./res/logo.png" type="image/x-icon" />
+		<script
+			src="https://kit.fontawesome.com/f300007e95.js"
+			crossorigin="anonymous"></script>
+		<script type="module" src="./scripts/script.js"></script>
+	</head>
+	<body>
+		<header class="header">
+			<div class="content-wrapper header__grid">
+				<a href="index.html"
+					><img
+						class="header__logo"
+						src="./res/logo.png"
+						alt="logotype"
+				/></a>
+				<section class="header__search-bar">
+					<form class="header__form" id="searchForm">
+						<input
+							class="header__input"
+							id="searchInput"
+							type="text"
+							aria-label="Search"
+							autocomplete="off" />
+						<button class="header__form-btn" id="searchBtn">
+							Search
+						</button>
+						<ol class="search__dropdown"></ol>
+					</form>
+				</section>
+				<a href="./favorites.html" class="header__nav-btn" id="favBtn"
+					>Favorites</a
+				>
+			</div>
+		</header>
 
-    <!-- Trailer Caroussel -->
-    <section>
-      <div class="content-wrapper">
-        <section class="trailers">
-          <img
-            src="./res/icons/arrow-left.svg"
-            alt="left navigation arrow"
-            class="trailers__arrow trailers__arrow--left"
-            data-direction="left"
-          />
-          <img
-            src="./res/icons/arrow-right.svg"
-            alt="right navigation arrow"
-            class="trailers__arrow trailers__arrow--right"
-            data-direction="right"
-          />
-          <section class="trailers__container"></section>
-        </section>
-      </div>
-    </section>
+		<!-- Trailer Caroussel -->
+		<section>
+			<div class="content-wrapper">
+				<section class="trailers">
+					<img
+						src="./res/icons/arrow-left.svg"
+						alt="left navigation arrow"
+						class="trailers__arrow trailers__arrow--left"
+						data-direction="left" />
+					<img
+						src="./res/icons/arrow-right.svg"
+						alt="right navigation arrow"
+						class="trailers__arrow trailers__arrow--right"
+						data-direction="right" />
+					<section class="trailers__container"></section>
+				</section>
+			</div>
+		</section>
 
-    <!-- Our recommended movies section -->
-    <section>
-      <div class="content-wrapper content-wrapper--margin-bottom">
-        <h1 class="content-wrapper__title">Top 20 highest rating movies</h1>
-        <section class="card-container" id="cardContainer">
-        </section>
-      </div>
-    </section>
-  </body>
+		<!-- Our recommended movies section -->
+		<section>
+			<div class="content-wrapper content-wrapper--margin-bottom">
+				<h1 class="content-wrapper__title">
+					Top 20 highest rating movies
+				</h1>
+				<section class="card-container" id="cardContainer"></section>
+			</div>
+		</section>
+	</body>
 </html>
