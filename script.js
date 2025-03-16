@@ -18,11 +18,21 @@ if (
 }
 
 // Favorites-sidan
-else if (window.location.pathname === '/favorites.html') {
+else if (
+	window.location.pathname === '/favorites.html' ||
+	window.location.pathname === '/my-movie-database/favorites.html'
+) {
+	console.log('favorites');
+
 	favouritePageSetup();
 }
 
 // Search-sidan
-else if (window.location.pathname === '/search.html') {
+else if (
+	window.location.pathname === '/search.html' ||
+	window.location.pathname === '/my-movie-database/search.html'
+) {
+	console.log('search');
+
 	searchPageSetup();
 }
