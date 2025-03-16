@@ -3,6 +3,7 @@ import {
 	favouritePageSetup,
 	searchPageSetup,
 } from './scripts/pageSetups/pageSetups.js';
+console.log('script');
 
 // Index-sidan
 if (
