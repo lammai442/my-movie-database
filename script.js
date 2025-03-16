@@ -9,9 +9,8 @@ console.log('script');
 if (
 	window.location.pathname === '/' ||
 	window.location.pathname === '/index.html' ||
-	window.location.pathname === 'my-movie-database/' ||
-	window.location.pathname ===
-		'https://lammai442.github.io/my-movie-database/'
+	window.location.pathname === '/my-movie-database/' ||
+	window.location.pathname === '/my-movie-database/index.html'
 ) {
 	indexPageSetup();
 }
