@@ -94,7 +94,7 @@ export function submitSearch() {
 		) {
 			// När man har submittat sökningen så byts det till detta fönster
 			window.location.href =
-				`/search.html` || '/my-movie-database/search.html';
+				'/my-movie-database/search.html' || `/search.html`;
 			searchPageSetup();
 		}
 		// Om den är på samma searchsidan så laddas inte sidan om.
