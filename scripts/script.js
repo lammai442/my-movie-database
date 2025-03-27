@@ -8,7 +8,8 @@ import {
 if (
 	window.location.pathname === '/' ||
 	window.location.pathname === '/index.html' ||
-	window.location.pathname === '/my-movie-database/'
+	window.location.pathname === '/my-movie-database/' ||
+	window.location.pathname === '/my-movie-database/index.html'
 ) {
 	console.log('index');
 
