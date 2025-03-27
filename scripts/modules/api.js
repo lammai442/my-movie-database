@@ -27,7 +27,7 @@ export async function fetchTopMovies() {
 export async function fetchOmdbMovie(id) {
 	try {
 		const response = await fetch(
-			`http://www.omdbapi.com/?apikey=fa992dba&plot=full&i=${id}`
+			`https://www.omdbapi.com/?apikey=fa992dba&plot=full&i=${id}`
 		);
 		if (!response.ok) {
 			throw new Error(`HTTP error! Status: ${response.status} `);
@@ -45,7 +45,7 @@ export async function fetchOmdbMovie(id) {
 export async function fetchOmdbMovieBySearch(search) {
 	try {
 		const responsePageOne = await fetch(
-			`http://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=1`
+			`https://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=1`
 		);
 
 		// Om response returnerar false
@@ -60,7 +60,7 @@ export async function fetchOmdbMovieBySearch(search) {
 		// Om det finns fler än 10 filmer i arrayen
 		if (parseInt(moviesPageOne.totalResults) > 10) {
 			const responsePageTwo = await fetch(
-				`http://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=2`
+				`https://www.omdbapi.com/?apikey=fa992dba&s=${search}&page=2`
 			);
 
 			// Om response returnerar false
