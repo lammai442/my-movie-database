@@ -88,9 +88,13 @@ export function submitSearch() {
 		// Sparar ner sökningen till oData med keyname search
 		saveFavouriteToLocalstorage('search', searchInputRef.value);
 
-		if (window.location.pathname !== '/search.html') {
+		if (
+			window.location.pathname !== '/search.html' ||
+			'/my-movie-database/search.html'
+		) {
 			// När man har submittat sökningen så byts det till detta fönster
-			window.location.href = `/search.html`;
+			window.location.href =
+				`/search.html` || '/my-movie-database/search.html';
 			searchPageSetup();
 		}
 		// Om den är på samma searchsidan så laddas inte sidan om.
