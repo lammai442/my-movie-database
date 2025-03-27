@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Movie Database - Favorites</title>
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="shortcut icon" href="./res/logo.png" type="image/x-icon">
-    <script
-      src="https://kit.fontawesome.com/f300007e95.js"
-      crossorigin="anonymous"
-    ></script>
-    <script type="module" src="./scripts/script.js"></script>
-  </head>
-  <body>
-    <header class="header">
-      <div class="content-wrapper header__grid">
-        <a href="index.html"
-          ><img class="header__logo" src="./res/logo.png" alt="logotype"
-        /></a>
-        <section class="header__search-bar">
-          <form class="header__form" id="searchForm">
-            <input
-            class="header__input"
-            id="searchInput"
-            type="text"
-            aria-label="Search" autocomplete="off"
-            />
-            <button class="header__form-btn" id="searchBtn">Search</button>
-            <ol class="search__dropdown">
-            </ol>
-          </form>
-        </section>
-        <a href="./index.html" class="header__nav-btn" id="favBtn"
-          >Home</a
-        >
-      </div>
-    </header>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>My Movie Database - Favorites</title>
+		<link rel="stylesheet" href="./styles/style.css" />
+		<link rel="shortcut icon" href="./res/logo.png" type="image/x-icon" />
+		<script
+			src="https://kit.fontawesome.com/f300007e95.js"
+			crossorigin="anonymous"></script>
+		<script type="module" src="./scripts/script.js"></script>
+	</head>
+	<body>
+		<header class="header">
+			<div class="content-wrapper header__grid">
+				<a href="./index.html"
+					><img
+						class="header__logo"
+						src="./res/logo.png"
+						alt="logotype"
+				/></a>
+				<section class="header__search-bar">
+					<form class="header__form" id="searchForm">
+						<input
+							class="header__input"
+							id="searchInput"
+							type="text"
+							aria-label="Search"
+							autocomplete="off" />
+						<button class="header__form-btn" id="searchBtn">
+							Search
+						</button>
+						<ol class="search__dropdown"></ol>
+					</form>
+				</section>
+				<a href="./index.html" class="header__nav-btn" id="favBtn"
+					>Home</a
+				>
+			</div>
+		</header>
 
-    <!-- <header class="header">
+		<!-- <header class="header">
       <div class="content-wrapper header__flex">
         <a href="index.html"
           ><img class="header__logo" src="./res/logo.png" alt="logotype"
@@ -45,12 +48,14 @@
       </div>
     </header> -->
 
-    <!-- Favorite movies section -->
-    <section>
-      <div class="content-wrapper content-wrapper--margin-top">
-        <h2 class="content-wrapper__title">Your favorites</h2>
-        <section class="card-container" id="favouriteCardContainer"></section>
-      </div>
-    </section>
-  </body>
+		<!-- Favorite movies section -->
+		<section>
+			<div class="content-wrapper content-wrapper--margin-top">
+				<h2 class="content-wrapper__title">Your favorites</h2>
+				<section
+					class="card-container"
+					id="favouriteCardContainer"></section>
+			</div>
+		</section>
+	</body>
 </html>
