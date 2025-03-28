@@ -439,7 +439,7 @@ body {
 		top: 3%;
 		overflow-y: auto; /* Gör det möjligt att scrolla innehållet vertikalt */
 		scrollbar-width: none;
-		max-height: 55vh; /* Sätter en maxhöjd för modalen så att den inte blir för stor */
+		max-height: 90vh; /* Sätter en maxhöjd för modalen så att den inte blir för stor */
 	}
 }
 
