@@ -13,28 +13,40 @@ import { searchDropdown, submitSearch } from '../utils/search.js';
 
 // Funktion för att sätta upp startsidan
 export async function indexPageSetup() {
+	const cardContainerRef = document.querySelector('#cardContainer'); //
+	cardContainerRef.innerHTML = `<p class="loading-msg">Loading movies...</p>`;
 	// Hämtar hem topfilmer från Jespers databas och lägger in i oData.topMoviesList
-	await fetchTopMovies();
+	try {
+		await fetchTopMovies();
 
-	// Shufflar om hela arrayen och sparar sedan de fem först i listan in i fiveRandomTrailerMovies
-	let fiveRandomTrailerMovies = shuffleArray(oData.topMovieList).slice(0, 5);
+		// Shufflar om hela arrayen och sparar sedan de fem först i listan in i fiveRandomTrailerMovies
+		let fiveRandomTrailerMovies = shuffleArray(oData.topMovieList).slice(
+			0,
+			5
+		);
 
-	// Här skickas 5 slumpmässiga filmer från Jespers databas för caroussel
-	for (let i = 0; i < fiveRandomTrailerMovies.length; i++) {
-		// För varje iteration så skickas även ett nummer med som måste börja på 1
-		renderTrailers(fiveRandomTrailerMovies[i], i + 1);
+		// Här skickas 5 slumpmässiga filmer från Jespers databas för caroussel
+		for (let i = 0; i < fiveRandomTrailerMovies.length; i++) {
+			// För varje iteration så skickas även ett nummer med som måste börja på 1
+			renderTrailers(fiveRandomTrailerMovies[i], i + 1);
+		}
+
+		let top20MovieList = oData.topMovieList.slice(0, 20);
+
+		// // Omvandlar arrayen topMovieList så att den har mer detailjer
+		let fullMovieDetails = await getAllMovieDetails(top20MovieList);
+		// // Lägger in top 20 filmer med högst ranking först från Jespers databas
+
+		oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails);
+		// Tömmer "Loading..." innan filmerna visas
+		cardContainerRef.innerHTML = '';
+
+		// Funktion för skapa alla movieCards
+		createAllMovieCards(oData.MovieByHighestRating);
+	} catch (error) {
+		cardContainerRef.innerHTML = `<p class="error-msg">Failed to load movies. Please try again later.</p>`;
+		console.error('Error loading movies:', error);
 	}
-
-	let top20MovieList = oData.topMovieList.slice(0, 20);
-
-	// // Omvandlar arrayen topMovieList så att den har mer detailjer
-	let fullMovieDetails = await getAllMovieDetails(top20MovieList);
-	// // Lägger in top 20 filmer med högst ranking först från Jespers databas
-
-	oData.MovieByHighestRating = MovieByHighestRating(fullMovieDetails);
-
-	// Funktion för skapa alla movieCards
-	createAllMovieCards(oData.MovieByHighestRating);
 
 	// Aktivering av sökfunktioner
 	searchDropdown();
@@ -70,26 +82,34 @@ export function favouritePageSetup() {
 export async function searchPageSetup() {
 	const searchContainerRef = document.querySelector('#searchContainer');
 	searchContainerRef.innerHTML = '';
+	searchContainerRef.innerHTML = `<p class="loading-msg">Searching for movie...</p>`;
+	try {
+		// Hämtar hem sökordet från localStorage
+		let search = getLocalStorage('search');
 
-	// Hämtar hem sökordet från localStorage
-	let search = getLocalStorage('search');
+		// Hämtar hem en array som har sökordet genom API
+		let movie = await fetchOmdbMovieBySearch(search);
 
-	// Hämtar hem en array som har sökordet genom API
-	let movie = await fetchOmdbMovieBySearch(search);
-
-	// Här kontrolleras ifall det har returnerat en movie.Error och då kommer följande felmeddelande fram
-	if (movie.Error) {
-		searchContainerRef.innerHTML = `
+		// Här kontrolleras ifall det har returnerat en movie.Error och då kommer följande felmeddelande fram
+		if (movie.Error) {
+			searchContainerRef.innerHTML = `
         <p class="empty-msg">The movie doesn't exist in the database.</p>
         `;
-	}
-	// Om movie returneras med en array med filmer så körs detta
-	else {
-		// Hämtar hem alla detaljer från filmerna
-		let fullMovieDetails = await getAllMovieDetails(movie);
+		}
+		// Om movie returneras med en array med filmer så körs detta
+		else {
+			// Hämtar hem alla detaljer från filmerna
+			let fullMovieDetails = await getAllMovieDetails(movie);
 
-		// Loopar för att skapa moviecards i söksidan.
-		createAllMovieCards(fullMovieDetails);
+			// Tömmer "Loading..." innan filmerna visas
+			searchContainerRef.innerHTML = '';
+
+			// Loopar för att skapa moviecards i söksidan.
+			createAllMovieCards(fullMovieDetails);
+		}
+	} catch (error) {
+		searchContainerRef.innerHTML = `<p class="error-msg">Failed to search for movies. Please try again later.</p>`;
+		console.error('Error fetching movies:', error);
 	}
 
 	// Aktivering av sökfunktioner
