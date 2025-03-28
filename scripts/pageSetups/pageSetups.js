@@ -70,7 +70,7 @@ export function favouritePageSetup() {
 	}
 	// Om ingen film är sjärnmarkerad så syns denna
 	else {
-		favouriteCardContainerRef.innerHTML = `<p class="empty-msg">You haven't chosen any favourite movie yet!</p>`;
+		favouriteCardContainerRef.innerHTML = `<p class="empty-msg">You haven't chosen any favorite movie yet!</p>`;
 	}
 	// Aktivering av sökfunktioner
 	searchDropdown();
@@ -80,13 +80,12 @@ export function favouritePageSetup() {
 
 // Funktion för att sätt upp searchsidan
 export async function searchPageSetup() {
+	// Hämtar hem sökordet från localStorage
+	let search = getLocalStorage('search');
 	const searchContainerRef = document.querySelector('#searchContainer');
 	searchContainerRef.innerHTML = '';
-	searchContainerRef.innerHTML = `<p class="loading-msg">Searching for movie...</p>`;
+	searchContainerRef.innerHTML = `<p class="loading-msg">Searching for ${search}</p>`;
 	try {
-		// Hämtar hem sökordet från localStorage
-		let search = getLocalStorage('search');
-
 		// Hämtar hem en array som har sökordet genom API
 		let movie = await fetchOmdbMovieBySearch(search);
 

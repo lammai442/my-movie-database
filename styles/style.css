@@ -449,3 +449,10 @@ body {
 		grid-row: 2 / 3;
 	}
 }
+
+@media screen and (max-width: 463px) {
+	.card-container {
+		grid-template-columns: repeat(auto-fit, minmax(100px, 170px));
+		gap: 0.5rem;
+	}
+}
