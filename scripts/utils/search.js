@@ -93,14 +93,41 @@ export function submitSearch() {
 			'/my-movie-database/search.html'
 		) {
 			// När man har submittat sökningen så byts det till detta fönster
-			window.location.href =
-				'/my-movie-database/search.html' || `/search.html`;
+			// window.location.href =
+			// 	`/search.html` || '/my-movie-database/search.html';
+			fetch('/search.html')
+				.then((response) => {
+					if (!response.ok) {
+						// Om 404, byt till /my-movie-database/search.html
+						window.location.href = '/my-movie-database/search.html';
+					} else {
+						// Om sidan finns, ladda den
+						window.location.href = '/search.html';
+					}
+				})
+				.catch(() => {
+					// Om det blir något fel, försök med backup-URL
+					window.location.href = '/my-movie-database/search.html';
+				});
+
 			searchPageSetup();
 		}
 		// Om den är på samma searchsidan så laddas inte sidan om.
 		else if (
-			window.location.pathname === '/search.html' ||
-			window.location.pathname === '/my-movie-database/search.html'
+			fetch('/search.html')
+				.then((response) => {
+					if (!response.ok) {
+						// Om 404, byt till /my-movie-database/search.html
+						window.location.href = '/my-movie-database/search.html';
+					} else {
+						// Om sidan finns, ladda den
+						window.location.href = '/search.html';
+					}
+				})
+				.catch(() => {
+					// Om det blir något fel, försök med backup-URL
+					window.location.href = '/my-movie-database/search.html';
+				})
 		) {
 			searchPageSetup();
 		}

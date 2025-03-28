@@ -3,6 +3,16 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<base href="/my-movie-database/" />
+		<script>
+			if (
+				window.location.hostname === '127.0.0.1' ||
+				window.location.hostname === 'localhost' ||
+				window.location.hostname === '127.0.0.1:5502'
+			) {
+				document.querySelector('base').setAttribute('href', '/');
+			}
+		</script>
 		<title>My Movie Database - Favorites</title>
 		<link rel="stylesheet" href="./styles/style.css" />
 		<link rel="shortcut icon" href="./res/logo.png" type="image/x-icon" />
