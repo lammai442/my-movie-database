@@ -23,6 +23,7 @@
 body {
 	background-color: var(--primary-bg);
 	max-width: 100%;
+	scrollbar-width: none;
 }
 
 /* Utils */
